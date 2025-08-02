@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  StatusBar,
+  Platform,
+} from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
 
@@ -13,13 +20,27 @@ const Header = ({
   textColor = Colors.white,
   showBackButton = false,
   onBackPress,
+  showMenu = false,
+  showList = false,
+  onMenuPress,
+  onListPress,
 }) => {
   return (
     <View style={[styles.header, { backgroundColor }]}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={backgroundColor}
+        translucent={false}
+      />
       <View style={styles.leftContainer}>
         {showBackButton && (
           <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
             <Text style={[styles.backButtonText, { color: textColor }]}>←</Text>
+          </TouchableOpacity>
+        )}
+        {showMenu && (
+          <TouchableOpacity onPress={onMenuPress} style={styles.iconButton}>
+            <Text style={[styles.iconText, { color: textColor }]}>☰</Text>
           </TouchableOpacity>
         )}
         {leftIcon && (
@@ -36,6 +57,11 @@ const Header = ({
       </View>
 
       <View style={styles.rightContainer}>
+        {showList && (
+          <TouchableOpacity onPress={onListPress} style={styles.iconButton}>
+            <Text style={[styles.iconText, { color: textColor }]}>☐</Text>
+          </TouchableOpacity>
+        )}
         {rightIcon && (
           <TouchableOpacity onPress={onRightPress} style={styles.iconButton}>
             {rightIcon}
@@ -48,22 +74,27 @@ const Header = ({
 
 const styles = StyleSheet.create({
   header: {
-    height: Metrics.headerHeight,
+    height:
+      Platform.OS === 'ios'
+        ? Metrics.headerHeight + 44
+        : Metrics.headerHeight + 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: Metrics.md,
+    paddingTop: Platform.OS === 'ios' ? 44 : 24,
     ...Metrics.shadow.large,
+    zIndex: Metrics.zIndex.header,
   },
   leftContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    minWidth: 60,
+    minWidth: 80,
   },
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    minWidth: 0,
+    minWidth: 80,
     justifyContent: 'flex-end',
   },
   titleContainer: {
@@ -72,8 +103,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: Metrics.fontSize.lg,
-    fontWeight: '600',
+    fontSize: Metrics.fontSize.xl,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   backButton: {
@@ -84,7 +115,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   iconButton: {
-    padding: Metrics.sm,
+    padding: Metrics.md,
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconText: {
+    fontSize: Metrics.fontSize.xl,
+    fontWeight: 'bold',
   },
 });
 

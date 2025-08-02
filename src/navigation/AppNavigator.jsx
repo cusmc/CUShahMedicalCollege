@@ -6,7 +6,8 @@ import { useAuth } from '../context/AuthContext';
 // Import screens
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
-import Dashboard from '../screens/Dashboard';
+import index from 'srcscreensHome';
+// import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +25,12 @@ const AppNavigator = () => {
   }, []);
 
   // Debug logging
-  console.log('🔍 AppNavigator - isAuthenticated:', isAuthenticated, 'isLoading:', isLoading);
+  console.log(
+    '🔍 AppNavigator - isAuthenticated:',
+    isAuthenticated,
+    'isLoading:',
+    isLoading,
+  );
 
   if (showSplash) {
     return <SplashScreen onFinish={() => setShowSplash(false)} />;
@@ -46,11 +52,11 @@ const AppNavigator = () => {
           <Stack.Screen name="Login" component={LoginScreen} />
         ) : (
           // Main App Stack
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="index" component={index} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
-export default AppNavigator; 
+export default AppNavigator;

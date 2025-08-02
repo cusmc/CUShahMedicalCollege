@@ -56,7 +56,7 @@ export const Metrics = {
   // Component sizes
   buttonHeight: 48,
   inputHeight: 48,
-  headerHeight: 60,
+  headerHeight: 80,
   tabBarHeight: 80,
   cardPadding: 16,
   iconSize: {

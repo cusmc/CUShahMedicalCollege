@@ -17,16 +17,18 @@ class Api {
       // Optional: Add your exact Authorization and Cookie values from your working curl request
       const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ZGVtbzpwYXNzd29yZA==', // Replace with actual base64-encoded client credentials if required
-        'Cookie': 'CompName=C.U.Shah Medical College & Hospital; Inst=CUSMC; Inst_id=1; __RequestVerificationToken=your_token_here',
+        Authorization: 'Basic ZGVtbzpwYXNzd29yZA==', // Replace with actual base64-encoded client credentials if required
+        Cookie:
+          'CompName=C.U.Shah Medical College & Hospital; Inst=CUSMC; Inst_id=1; __RequestVerificationToken=your_token_here',
       };
 
       console.log('🔵 Sending login request...');
-      const response = await axios.post(TOKEN_URL, formBody.toString(), { headers });
+      const response = await axios.post(TOKEN_URL, formBody.toString(), {
+        headers,
+      });
 
       console.log('✅ Token fetched successfully:', response.data);
       return response.data;
-
     } catch (error) {
       if (error.response) {
         console.error('❌ Server responded with error:', error.response.data);
