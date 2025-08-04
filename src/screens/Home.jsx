@@ -35,24 +35,22 @@ const Home = ({ navigation }) => {
         style={styles.scrollView}
         contentContainerStyle={styles.content}
       >
-        {/* Title Section */}
-        <View style={styles.titleContainer}>
-          <Text style={styles.mainTitle}>Shri C. U. Shah</Text>
-          <Text style={styles.subtitle}>Founder & Visionary</Text>
-        </View>
 
         {/* Circular Image */}
         <View style={styles.imageContainer}>
+          <Text style={styles.mainTitle}>Shri C. U. Shah</Text>
+          <Text style={styles.subtitle}>Founder & Visionary {'\n'}</Text>
+
           <Image
             source={require('../../assets/images/cushah_saheb.jpg')}
             style={styles.profileImage}
             resizeMode="cover"
           />
-        </View>
 
-        {/* Text Content */}
-        <View style={styles.textContainer}>
+          {/* Text Content */}
+          {/* <View style={styles.textContainer}> */}
           <Text style={styles.paragraph}>
+            {'\n'}
             C.U. Shah Medical College is a " Dream come True " of the great
             visionary and philanthropist Shri C. U. Shah.
           </Text>
@@ -69,6 +67,7 @@ const Home = ({ navigation }) => {
           </Text>
           <Text style={styles.centeredText}>"THE END OF AN ERA"</Text>
         </View>
+        {/* </View> */}
       </ScrollView>
     </View>
   );

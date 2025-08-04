@@ -17,8 +17,12 @@ const AuthNavigator = () => {
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       {/* Add more auth screens here like Register, ForgotPassword, etc. */}
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="HRMain" component={HR} />
+        <Stack.Screen name="PaySlip" component={PaySlip} />
+      </Stack.Navigator>
     </Stack.Navigator>
   );
 };
 
-export default AuthNavigator; 
+export default AuthNavigator;

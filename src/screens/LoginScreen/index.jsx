@@ -55,10 +55,6 @@ const LoginScreen = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
-    >
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         style={styles.scrollView}
@@ -83,18 +79,18 @@ const LoginScreen = () => {
 
             {/* Username Input */}
             <CustomInput
-              label={Strings.usernameLabel}
+              // label={Strings.usernameLabel}
               value={username}
               onChangeText={setUsername}
               placeholder={Strings.usernamePlaceholder}
-              autoCapitalize="none"
+              // autoCapitalize="none"
               autoCorrect={false}
               editable={!isLoading}
             />
 
             {/* Password Input */}
             <CustomInput
-              label={Strings.passwordLabel}
+              // label={Strings.passwordLabel}
               value={password}
               onChangeText={setPassword}
               placeholder={Strings.passwordPlaceholder}
@@ -124,7 +120,7 @@ const LoginScreen = () => {
             />
           </View>
 
-          Sign Up Link
+          {/* Sign Up Link */}
           {/* <View style={styles.signUpContainer}>
             <Text style={styles.signUpText}>
               Don't have an account?{' '}
@@ -133,7 +129,6 @@ const LoginScreen = () => {
           </View> */}
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -37,27 +37,23 @@ const CustomInput = ({
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const animatedValue = new Animated.Value(value ? 1 : 0);
+  const animatedValue = useRef(new Animated.Value(value ? 1 : 0)).current;
 
-  const handleFocus = () => {
-    setIsFocused(true);
+  useEffect(() => {
     Animated.timing(animatedValue, {
-      toValue: 1,
+      toValue: isFocused || value ? 1 : 0,
       duration: 200,
       useNativeDriver: false,
     }).start();
+  }, [isFocused, value]);
+
+  const handleFocus = () => {
+    setIsFocused(true);
     onFocus && onFocus();
   };
 
   const handleBlur = () => {
     setIsFocused(false);
-    if (!value) {
-      Animated.timing(animatedValue, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: false,
-      }).start();
-    }
     onBlur && onBlur();
   };
 
@@ -65,36 +61,21 @@ const CustomInput = ({
     setShowPassword(!showPassword);
   };
 
-  const getInputStyle = () => {
-    const baseStyle = [styles.input];
-
-    if (isFocused) {
-      baseStyle.push(styles.inputFocused);
-    }
-
-    if (error) {
-      baseStyle.push(styles.inputError);
-    }
-
-    if (!editable) {
-      baseStyle.push(styles.inputDisabled);
-    }
-
-    return baseStyle;
-  };
-
-  const getLabelStyle = () => {
-    const baseStyle = [styles.label];
-
-    if (isFocused || value) {
-      baseStyle.push(styles.labelFocused);
-    }
-
-    if (error) {
-      baseStyle.push(styles.labelError);
-    }
-
-    return baseStyle;
+  const labelAnimatedStyle = {
+    transform: [
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [18, -8],
+        }),
+      },
+      {
+        scale: animatedValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [1, 0.85],
+        }),
+      },
+    ],
   };
 
   return (
@@ -102,29 +83,28 @@ const CustomInput = ({
       {label && (
         <Animated.Text
           style={[
-            getLabelStyle(),
+            styles.label,
+            labelAnimatedStyle,
             labelStyle,
-            {
-              transform: [
-                {
-                  translateY: animatedValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, -20],
-                  }),
-                },
-              ],
-            },
+            error && styles.labelError,
           ]}
         >
           {label}
         </Animated.Text>
       )}
 
-      <View style={styles.inputContainer}>
+      <View
+        style={[
+          styles.inputContainer,
+          isFocused && styles.inputFocused,
+          error && styles.inputError,
+          !editable && styles.inputDisabled,
+        ]}
+      >
         {leftIcon && <View style={styles.leftIconContainer}>{leftIcon}</View>}
 
         <TextInput
-          style={[getInputStyle(), textInputStyle]}
+          style={[styles.input, textInputStyle]}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
@@ -148,7 +128,7 @@ const CustomInput = ({
             onPress={togglePasswordVisibility}
           >
             <Text style={styles.passwordToggle}>
-              {showPassword ? '👁️' : '👁️‍🗨️'}
+              {showPassword ? '🙈' : '👁️'}
             </Text>
           </TouchableOpacity>
         )}
@@ -173,17 +153,14 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.md,
   },
   label: {
+    position: 'absolute',
+    left: 16,
+    top: 18,
+    zIndex: 1,
     fontSize: Metrics.fontSize.sm,
     color: Colors.textSecondary,
-    marginBottom: Metrics.xs,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
-  },
-  labelFocused: {
-    color: Colors.primary,
-    fontSize: Metrics.fontSize.xs,
+    backgroundColor: Colors.white,
+    paddingHorizontal: 4,
   },
   labelError: {
     color: Colors.error,
@@ -197,13 +174,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     minHeight: Metrics.inputHeight,
   },
-  input: {
-    flex: 1,
-    paddingHorizontal: Metrics.md,
-    paddingVertical: Metrics.sm,
-    fontSize: Metrics.fontSize.md,
-    color: Colors.textPrimary,
-  },
   inputFocused: {
     borderColor: Colors.primary,
   },
@@ -212,7 +182,14 @@ const styles = StyleSheet.create({
   },
   inputDisabled: {
     backgroundColor: Colors.grayLighter,
-    color: Colors.textTertiary,
+  },
+  input: {
+    flex: 1,
+    paddingLeft: Metrics.md,
+    paddingRight: Metrics.xl, // extra right padding to avoid overlap with icons
+    paddingVertical: Metrics.sm,
+    fontSize: Metrics.fontSize.md,
+    color: Colors.textPrimary,
   },
   leftIconContainer: {
     paddingLeft: Metrics.md,

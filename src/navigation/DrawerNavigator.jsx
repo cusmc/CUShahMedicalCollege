@@ -11,6 +11,7 @@ import Library from '../screens/Library';
 import Hospital from '../screens/Hospital';
 import ImportantInfo from '../screens/ImportantInfo';
 import Settings from '../screens/Settings';
+import PaySlip from '../screens/PaySlip';
 
 const Drawer = createDrawerNavigator();
 
@@ -89,6 +90,13 @@ const DrawerNavigator = () => {
         component={Settings}
         options={{
           drawerLabel: '⚙️ Settings',
+        }}
+      />
+      <Drawer.Screen
+        name="PaySlip"
+        component={PaySlip}
+        options={{
+          drawerLabel: '💰 Pay Slip',
         }}
       />
     </Drawer.Navigator>

@@ -34,6 +34,11 @@ export default StyleSheet.create({
     width: 64,
     height: 64,
     borderRadius: 32,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
   },
   welcomeText: {
     color: Colors.white,
@@ -53,7 +58,7 @@ export default StyleSheet.create({
     ...Metrics.shadow.medium,
   },
   formTitle: {
-    color: Colors.textPrimary,
+    // color: Colors.textPrimary,
     fontSize: Metrics.fontSize.xxl,
     fontWeight: 'bold',
     marginBottom: Metrics.lg,

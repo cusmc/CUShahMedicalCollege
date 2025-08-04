@@ -1,4 +1,9 @@
 {
   "name": "CUShahMedicalCollege",
-  "displayName": "CUShahMedicalCollege"
+  "displayName": "CUShahMedicalCollege",
+  "extra": {
+    "eas": {
+      "projectId": "d6ea8128-a8f5-4edd-a910-2309db8462bf"
+    }
+  }
 }

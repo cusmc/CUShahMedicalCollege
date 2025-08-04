@@ -66,7 +66,7 @@ export default StyleSheet.create({
   },
   paragraph: {
     fontSize: Metrics.fontSize.lg,
-    lineHeight: 28,
+    lineHeight: 25,
     color: Colors.textPrimary,
     marginBottom: Metrics.xl,
     textAlign: 'left',
