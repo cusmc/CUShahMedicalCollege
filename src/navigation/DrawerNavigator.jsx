@@ -31,6 +31,8 @@ const DrawerNavigator = () => {
           fontSize: 16,
           fontWeight: '500',
         },
+        drawerType: 'front',
+        overlayColor: 'rgba(0, 0, 0, 0.5)',
       }}
     >
       <Drawer.Screen

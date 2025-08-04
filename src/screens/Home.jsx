@@ -1,172 +1,77 @@
+// src/screens/HomeScreen.js
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import { useAuth } from '../context/AuthContext';
-import Header from '../components/Header';
-import { Colors } from '../constants/Colors';
-import { Metrics } from '../constants/Metrics';
+import { View, Text, ScrollView, Image } from 'react-native';
+import Header from '../components/Header'; // Adjust if in different path
+import styles from './HomeStyles';
 
 const Home = ({ navigation }) => {
-  const { user } = useAuth();
-
-  const quickActions = [
-    { title: '📚 Academic', icon: '📚', color: '#3B82F6' },
-    { title: '🏥 Hospital', icon: '🏥', color: '#10B981' },
-    { title: '📖 Library', icon: '📖', color: '#8B5CF6' },
-    { title: '👥 HR', icon: '👥', color: '#F59E0B' },
-    { title: '🌐 Public', icon: '🌐', color: '#EF4444' },
-    { title: 'ℹ️ Info', icon: 'ℹ️', color: '#06B6D4' },
-  ];
-
-  const handleQuickAction = action => {
-    navigation.navigate(action.title.split(' ')[1]);
+  const handleMenuPress = () => {
+    try {
+      // Try different methods to open drawer
+      if (navigation?.openDrawer) {
+        navigation.openDrawer();
+      } else if (navigation?.getParent()?.openDrawer) {
+        navigation.getParent().openDrawer();
+      } else {
+        console.log('Drawer navigation not available');
+      }
+    } catch (error) {
+      console.log('Navigation error:', error);
+    }
   };
 
   return (
     <View style={styles.container}>
+      {/* Header */}
       <Header
         title="C U SHAH MEDICAL COLLEG..."
         showMenu={true}
-        onMenuPress={() => navigation.openDrawer()}
+        onMenuPress={handleMenuPress}
         showList={true}
       />
 
-      <ScrollView style={styles.content}>
-        {/* Welcome Section */}
-        <View style={styles.welcomeSection}>
-          <Text style={styles.welcomeText}>
-            Welcome back, {user?.name || 'User'}!
-          </Text>
-          <Text style={styles.subtitleText}>
-            What would you like to do today?
-          </Text>
+      {/* Main Content */}
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.content}
+      >
+        {/* Title Section */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.mainTitle}>Shri C. U. Shah</Text>
+          <Text style={styles.subtitle}>Founder & Visionary</Text>
         </View>
 
-        {/* Quick Actions Grid */}
-        <View style={styles.quickActionsSection}>
-          <Text style={styles.sectionTitle}>Quick Actions</Text>
-          <View style={styles.quickActionsGrid}>
-            {quickActions.map((action, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.quickActionCard,
-                  { backgroundColor: action.color },
-                ]}
-                onPress={() => handleQuickAction(action)}
-              >
-                <Text style={styles.actionIcon}>{action.icon}</Text>
-                <Text style={styles.actionTitle}>
-                  {action.title.split(' ')[1]}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+        {/* Circular Image */}
+        <View style={styles.imageContainer}>
+          <Image
+            source={require('../../assets/images/cushah_saheb.jpg')}
+            style={styles.profileImage}
+            resizeMode="cover"
+          />
         </View>
 
-        {/* Recent Activity */}
-        <View style={styles.recentActivitySection}>
-          <Text style={styles.sectionTitle}>Recent Activity</Text>
-          <View style={styles.activityCard}>
-            <Text style={styles.activityText}>
-              📚 Academic calendar updated
-            </Text>
-            <Text style={styles.activityTime}>2 hours ago</Text>
-          </View>
-          <View style={styles.activityCard}>
-            <Text style={styles.activityText}>
-              🏥 Hospital schedule modified
-            </Text>
-            <Text style={styles.activityTime}>1 day ago</Text>
-          </View>
-          <View style={styles.activityCard}>
-            <Text style={styles.activityText}>📖 Library resources added</Text>
-            <Text style={styles.activityTime}>3 days ago</Text>
-          </View>
+        {/* Text Content */}
+        <View style={styles.textContainer}>
+          <Text style={styles.paragraph}>
+            C.U. Shah Medical College is a " Dream come True " of the great
+            visionary and philanthropist Shri C. U. Shah.
+          </Text>
+          <Text style={styles.paragraph}>
+            A man with a mission " Never hurt-ever help ", a person who
+            dedicated his life for social upliftment, enhancement of healthcare
+            and education in service of humankind not only in the state of
+            Gujarat (especially the district of Surendranagar), but also in
+            other parts of the Country.
+          </Text>
+          <Text style={styles.paragraph}>
+            He left us for his heavenly abode on 31-1-2013 but his Spiritual
+            Presence is always with us guiding us into the right path.
+          </Text>
+          <Text style={styles.centeredText}>"THE END OF AN ERA"</Text>
         </View>
       </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f8f9fa',
-  },
-  content: {
-    flex: 1,
-    padding: Metrics.lg,
-  },
-  welcomeSection: {
-    marginBottom: Metrics.xl,
-  },
-  welcomeText: {
-    fontSize: Metrics.fontSize.xxl,
-    fontWeight: 'bold',
-    color: Colors.text,
-    marginBottom: Metrics.xs,
-  },
-  subtitleText: {
-    fontSize: Metrics.fontSize.lg,
-    color: Colors.gray,
-  },
-  quickActionsSection: {
-    marginBottom: Metrics.xl,
-  },
-  sectionTitle: {
-    fontSize: Metrics.fontSize.xl,
-    fontWeight: 'bold',
-    color: Colors.text,
-    marginBottom: Metrics.lg,
-  },
-  quickActionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
-  quickActionCard: {
-    width: '48%',
-    padding: Metrics.lg,
-    borderRadius: Metrics.borderRadius.lg,
-    marginBottom: Metrics.md,
-    alignItems: 'center',
-    ...Metrics.shadow.medium,
-  },
-  actionIcon: {
-    fontSize: Metrics.fontSize.xxxl,
-    marginBottom: Metrics.sm,
-  },
-  actionTitle: {
-    color: Colors.white,
-    fontSize: Metrics.fontSize.md,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  recentActivitySection: {
-    marginBottom: Metrics.xl,
-  },
-  activityCard: {
-    backgroundColor: Colors.white,
-    padding: Metrics.lg,
-    borderRadius: Metrics.borderRadius.md,
-    marginBottom: Metrics.sm,
-    ...Metrics.shadow.small,
-  },
-  activityText: {
-    fontSize: Metrics.fontSize.md,
-    color: Colors.text,
-    marginBottom: Metrics.xs,
-  },
-  activityTime: {
-    fontSize: Metrics.fontSize.sm,
-    color: Colors.gray,
-  },
-});
 
 export default Home;

@@ -19,6 +19,26 @@ const CustomDrawerContent = props => {
     props.navigation.closeDrawer();
   };
 
+  const handleNavigation = screenName => {
+    props.navigation.navigate(screenName);
+    props.navigation.closeDrawer();
+  };
+
+  const navigationItems = [
+    { name: 'Home', label: '🏠 Home', screen: 'Home' },
+    { name: 'Public', label: '🌐 Public', screen: 'Public' },
+    { name: 'HR', label: '👥 HR', screen: 'HR' },
+    { name: 'Academic', label: '📚 Academic', screen: 'Academic' },
+    { name: 'Library', label: '📖 Library', screen: 'Library' },
+    { name: 'Hospital', label: '🏥 Hospital', screen: 'Hospital' },
+    {
+      name: 'ImportantInfo',
+      label: 'ℹ️ Important Info',
+      screen: 'ImportantInfo',
+    },
+    { name: 'Settings', label: '⚙️ Settings', screen: 'Settings' },
+  ];
+
   return (
     <View style={styles.container}>
       {/* User Profile Section */}
@@ -33,30 +53,15 @@ const CustomDrawerContent = props => {
 
       {/* Navigation Items */}
       <ScrollView style={styles.navigationSection}>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>🏠 Home</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>🌐 Public</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>👥 HR</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>📚 Academic</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>📖 Library</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>🏥 Hospital</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}> ℹ️ Important Info</Text>
-        </View>
-        <View style={styles.navItem}>
-          <Text style={styles.navLabel}>⚙️ Settings</Text>
-        </View>
+        {navigationItems.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={styles.navItem}
+            onPress={() => handleNavigation(item.screen)}
+          >
+            <Text style={styles.navLabel}>{item.label}</Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
 
       {/* Logout Section */}
@@ -89,7 +94,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: Metrics.fontSize.lg,
     fontWeight: 'bold',
-    color: Colors.text,
+    color: Colors.textPrimary,
     marginBottom: Metrics.xs,
   },
   userRole: {
@@ -109,7 +114,7 @@ const styles = StyleSheet.create({
   },
   navLabel: {
     fontSize: Metrics.fontSize.md,
-    color: Colors.text,
+    color: Colors.textPrimary,
     fontWeight: '500',
   },
   logoutSection: {

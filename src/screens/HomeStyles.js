@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../../constants/Colors';
-import { Metrics } from '../../constants/Metrics';
+import { Colors } from '../constants/Colors';
+import { Metrics } from '../constants/Metrics';
 
 export default StyleSheet.create({
   container: {
@@ -49,7 +49,7 @@ export default StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: Colors.lightGray,
+    backgroundColor: Colors.grayLight,
     borderWidth: 4,
     borderColor: Colors.white,
     ...Metrics.shadow.large,
@@ -67,7 +67,7 @@ export default StyleSheet.create({
   paragraph: {
     fontSize: Metrics.fontSize.lg,
     lineHeight: 28,
-    color: Colors.text,
+    color: Colors.textPrimary,
     marginBottom: Metrics.xl,
     textAlign: 'left',
     fontWeight: '400',

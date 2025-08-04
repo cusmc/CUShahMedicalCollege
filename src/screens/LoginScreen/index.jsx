@@ -124,13 +124,13 @@ const LoginScreen = () => {
             />
           </View>
 
-          {/* Sign Up Link */}
-          <View style={styles.signUpContainer}>
+          Sign Up Link
+          {/* <View style={styles.signUpContainer}>
             <Text style={styles.signUpText}>
               Don't have an account?{' '}
               <Text style={styles.signUpLink}>Sign Up</Text>
             </Text>
-          </View>
+          </View> */}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>

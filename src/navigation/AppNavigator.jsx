@@ -6,8 +6,7 @@ import { useAuth } from '../context/AuthContext';
 // Import screens
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
-import index from 'srcscreensHome';
-// import DrawerNavigator from './DrawerNavigator';
+import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator();
 
@@ -51,8 +50,8 @@ const AppNavigator = () => {
           // Auth Stack
           <Stack.Screen name="Login" component={LoginScreen} />
         ) : (
-          // Main App Stack
-          <Stack.Screen name="index" component={index} />
+          // Main App Stack with Drawer Navigator
+          <Stack.Screen name="MainApp" component={DrawerNavigator} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
