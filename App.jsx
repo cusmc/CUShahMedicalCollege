@@ -13,6 +13,7 @@ import AppNavigator from './src/navigation/AppNavigator';
 import { Colors } from './src/constants/Colors';
 
 // Error boundary component to catch native module errors
+// Hitarth Shah
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
