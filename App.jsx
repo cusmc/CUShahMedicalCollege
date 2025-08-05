@@ -12,7 +12,7 @@ import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
 import { Colors } from './src/constants/Colors';
 
-// Error boundary component to catch native module errors
+// Error boundary component to catch native module errors Hitarth 
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
