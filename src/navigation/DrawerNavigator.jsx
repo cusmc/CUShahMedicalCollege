@@ -11,7 +11,7 @@ import Library from '../screens/Library';
 import Hospital from '../screens/Hospital';
 import ImportantInfo from '../screens/ImportantInfo';
 import Settings from '../screens/Settings';
-import PaySlip from '../screens/PaySlip';
+import PaySlip from '../components/PaySlip';
 
 const Drawer = createDrawerNavigator();
 

@@ -11,13 +11,16 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from './src/context/AuthContext';
 import AppNavigator from './src/navigation/AppNavigator';
 import { Colors } from './src/constants/Colors';
+import { Buffer } from 'buffer';
 
+global.Buffer = Buffer;
 // Error boundary component to catch native module errors
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
   }
+
 
   static getDerivedStateFromError(error) {
     return { hasError: true, error };

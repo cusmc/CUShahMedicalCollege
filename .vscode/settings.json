@@ -1,8 +1,5 @@
 {
-        "java.compile.nullAnalysis.mode": "automatic",
-        "java.configuration.updateBuildConfiguration": "automatic",
-        "cSpell.words": [
-                "cmdline",
-                "LASTEXITCODE"
-        ]
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "cSpell.words": ["cmdline", "LASTEXITCODE", "Shri"]
 }

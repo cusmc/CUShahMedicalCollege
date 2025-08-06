@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
   Alert,
   Image,
@@ -13,6 +11,8 @@ import { Strings } from '../../constants/Strings';
 import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
 import styles from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from '../../constants/StorageKeys'; // ✅ Make sure this file exports TOKEN key
 
 const LoginScreen = () => {
   const { login } = useAuth();
@@ -33,8 +33,17 @@ const LoginScreen = () => {
       const result = await login({ username, password });
 
       if (result.success) {
-        console.log('✅ Login successful, navigating to Dashboard...');
-        // The navigation should happen automatically due to isAuthenticated state change
+        console.log('✅ Login successful');
+
+        // ✅ Save token to AsyncStorage
+        if (result.token) {
+          await AsyncStorage.setItem(STORAGE_KEYS.TOKEN, result.token);
+          console.log('📦 Token saved to AsyncStorage:', result.token);
+        } else {
+          console.warn('⚠️ Login response did not contain a token');
+        }
+
+        // Navigation happens due to isAuthenticated change
       } else {
         console.log('❌ Login failed:', result.error);
         Alert.alert(
@@ -55,80 +64,65 @@ const LoginScreen = () => {
   };
 
   return (
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        style={styles.scrollView}
-      >
-        <View style={styles.content}>
-          {/* Header */}
-          <View style={styles.header}>
-            <View style={styles.logoContainer}>
-              <Image
-                source={require('../../../assets/images/cusmc_logo.png')}
-                style={styles.logoImage}
-                resizeMode="contain"
-              />
-            </View>
-            <Text style={styles.welcomeText}>{Strings.loginWelcome}</Text>
-            <Text style={styles.subtitle}>{Strings.loginSubtitle}</Text>
-          </View>
-
-          {/* Login Form */}
-          <View style={styles.formContainer}>
-            <Text style={styles.formTitle}>{Strings.loginTitle}</Text>
-
-            {/* Username Input */}
-            <CustomInput
-              // label={Strings.usernameLabel}
-              value={username}
-              onChangeText={setUsername}
-              placeholder={Strings.usernamePlaceholder}
-              // autoCapitalize="none"
-              autoCorrect={false}
-              editable={!isLoading}
-            />
-
-            {/* Password Input */}
-            <CustomInput
-              // label={Strings.passwordLabel}
-              value={password}
-              onChangeText={setPassword}
-              placeholder={Strings.passwordPlaceholder}
-              secureTextEntry={true}
-              autoCapitalize="none"
-              editable={!isLoading}
-            />
-
-            {/* Forgot Password */}
-            <Button
-              title={Strings.forgotPassword}
-              variant="ghost"
-              size="small"
-              onPress={handleForgotPassword}
-              disabled={isLoading}
-              style={styles.forgotPassword}
-            />
-
-            {/* Login Button */}
-            <Button
-              title={isLoading ? 'Signing In...' : Strings.loginButton}
-              onPress={handleLogin}
-              loading={isLoading}
-              disabled={isLoading}
-              fullWidth
-              style={styles.loginButton}
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      style={styles.scrollView}
+    >
+      <View style={styles.content}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require('../../../assets/images/cusmc_logo.png')}
+              style={styles.logoImage}
+              resizeMode="contain"
             />
           </View>
-
-          {/* Sign Up Link */}
-          {/* <View style={styles.signUpContainer}>
-            <Text style={styles.signUpText}>
-              Don't have an account?{' '}
-              <Text style={styles.signUpLink}>Sign Up</Text>
-            </Text>
-          </View> */}
+          <Text style={styles.welcomeText}>{Strings.loginWelcome}</Text>
+          <Text style={styles.subtitle}>{Strings.loginSubtitle}</Text>
         </View>
-      </ScrollView>
+
+        {/* Login Form */}
+        <View style={styles.formContainer}>
+          <Text style={styles.formTitle}>{Strings.loginTitle}</Text>
+
+          <CustomInput
+            value={username}
+            onChangeText={setUsername}
+            placeholder={Strings.usernamePlaceholder}
+            autoCorrect={false}
+            editable={!isLoading}
+          />
+
+          <CustomInput
+            value={password}
+            onChangeText={setPassword}
+            placeholder={Strings.passwordPlaceholder}
+            secureTextEntry
+            autoCapitalize="none"
+            editable={!isLoading}
+          />
+
+          <Button
+            title={Strings.forgotPassword}
+            variant="ghost"
+            size="small"
+            onPress={handleForgotPassword}
+            disabled={isLoading}
+            style={styles.forgotPassword}
+          />
+
+          <Button
+            title={isLoading ? 'Signing In...' : Strings.loginButton}
+            onPress={handleLogin}
+            loading={isLoading}
+            // disabled={isLoading}
+            fullWidth
+            style={styles.loginButton}
+          />
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 

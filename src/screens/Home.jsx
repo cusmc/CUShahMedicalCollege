@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <Header
-        title="C U SHAH MEDICAL COLLEG..."
+        title="C U SHAH MEDICAL COLLAGE..."
         showMenu={true}
         onMenuPress={handleMenuPress}
         showList={true}
@@ -35,10 +35,9 @@ const Home = ({ navigation }) => {
         style={styles.scrollView}
         contentContainerStyle={styles.content}
       >
-
         {/* Circular Image */}
         <View style={styles.imageContainer}>
-          <Text style={styles.mainTitle}>Shri C. U. Shah</Text>
+          <Text style={styles.mainTitle}>Shari C. U. Shah</Text>
           <Text style={styles.subtitle}>Founder & Visionary {'\n'}</Text>
 
           <Image
@@ -53,17 +52,12 @@ const Home = ({ navigation }) => {
             {'\n'}
             C.U. Shah Medical College is a " Dream come True " of the great
             visionary and philanthropist Shri C. U. Shah.
-          </Text>
-          <Text style={styles.paragraph}>
-            A man with a mission " Never hurt-ever help ", a person who
+            {'\n'}
+            {'\n'}A man with a mission " Never hurt-ever help ", a person who
             dedicated his life for social upliftment, enhancement of healthcare
             and education in service of humankind not only in the state of
             Gujarat (especially the district of Surendranagar), but also in
             other parts of the Country.
-          </Text>
-          <Text style={styles.paragraph}>
-            He left us for his heavenly abode on 31-1-2013 but his Spiritual
-            Presence is always with us guiding us into the right path.
           </Text>
           <Text style={styles.centeredText}>"THE END OF AN ERA"</Text>
         </View>
