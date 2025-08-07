@@ -27,7 +27,7 @@ const HR = ({ navigation }) => {
     {
       title: 'Payroll Information',
       description: 'View salary and payment details',
-      icon: '💰',
+      icon: '💸',
       screen: 'PaySlip',
     },
     {

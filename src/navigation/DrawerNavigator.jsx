@@ -96,7 +96,7 @@ const DrawerNavigator = () => {
         name="PaySlip"
         component={PaySlip}
         options={{
-          drawerLabel: '💰 Pay Slip',
+          drawerLabel: '💸 Pay Slip',
         }}
       />
     </Drawer.Navigator>

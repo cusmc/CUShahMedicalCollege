@@ -79,7 +79,7 @@ const PaySlip = ({ navigation }) => {
     const currentYear = new Date().getFullYear();
     const formattedMonth = (monthIndex + 1).toString().padStart(2, '0');
     const yearMonth = `${currentYear}${formattedMonth}`;
-    console.log('🗓️ Requesting payslip for:', yearMonth);
+    console.log('💸 Requesting payslip for:', yearMonth);
 
     try {
       await getSalarySlip(token, yearMonth);
@@ -106,7 +106,7 @@ const PaySlip = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <Header
-        title="👥 PaySlip"
+        title="💸 PaySlip"
         showMenu={true}
         onMenuPress={handleMenuPress}
         showList={true}
