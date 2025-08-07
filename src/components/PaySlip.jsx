@@ -104,14 +104,14 @@ const PaySlip = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Header
         title="👥 PaySlip"
         showMenu={true}
         onMenuPress={handleMenuPress}
         showList={true}
       />
-      <ScrollView contentContainerStyle={styles.mainContent}>
+      <View style={styles.mainContent}>
         <Text style={styles.heading}>Select Month</Text>
 
         <View style={styles.pickerWrapper}>
@@ -144,8 +144,8 @@ const PaySlip = ({ navigation }) => {
         {visible && pdfData && (
           <PDFViewer base64Data={pdfData} onClose={() => setVisible(false)} />
         )}
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
