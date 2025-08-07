@@ -128,7 +128,7 @@ const CustomInput = ({
             onPress={togglePasswordVisibility}
           >
             <Text style={styles.passwordToggle}>
-              {showPassword ? '🙈' : '👁️'}
+              {showPassword ? '👁️' : '🙈'}
             </Text>
           </TouchableOpacity>
         )}

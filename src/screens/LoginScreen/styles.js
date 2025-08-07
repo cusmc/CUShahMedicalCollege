@@ -48,8 +48,9 @@ export default StyleSheet.create({
     marginBottom: Metrics.sm,
   },
   subtitle: {
-    color: Colors.primaryLight,
+    color: Colors.white,
     textAlign: 'center',
+    fontSize: Metrics.fontSize.lg,
   },
   formContainer: {
     backgroundColor: Colors.white,

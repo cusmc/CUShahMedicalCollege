@@ -4,7 +4,6 @@ import {
   Text,
   Animated,
   Dimensions,
-  StyleSheet,
   Image,
 } from 'react-native';
 import { Colors } from '../../constants/Colors';
@@ -44,7 +43,7 @@ const SplashScreen = ({ onFinish }) => {
     // Auto navigate after 3 seconds
     const timer = setTimeout(() => {
       onFinish();
-    }, 8000);
+    }, 15000);
 
     return () => clearTimeout(timer);
   }, [fadeAnim, scaleAnim, logoAnim, onFinish]);

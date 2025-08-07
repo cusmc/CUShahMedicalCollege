@@ -59,9 +59,9 @@ const LoginScreen = () => {
     }
   };
 
-  const handleForgotPassword = () => {
-    Alert.alert(Strings.forgotPassword, Strings.forgotPasswordMessage);
-  };
+  // const handleForgotPassword = () => {
+  //   Alert.alert(Strings.forgotPassword, Strings.forgotPasswordMessage);
+  // };
 
   return (
     <ScrollView
@@ -103,14 +103,14 @@ const LoginScreen = () => {
             editable={!isLoading}
           />
 
-          <Button
+          {/* <Button
             title={Strings.forgotPassword}
             variant="ghost"
             size="small"
             onPress={handleForgotPassword}
             disabled={isLoading}
             style={styles.forgotPassword}
-          />
+          /> */}
 
           <Button
             title={isLoading ? 'Signing In...' : Strings.loginButton}

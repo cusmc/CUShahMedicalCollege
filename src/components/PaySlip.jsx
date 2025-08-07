@@ -81,13 +81,11 @@ const PaySlip = ({ navigation }) => {
     const yearMonth = `${currentYear}${formattedMonth}`;
     console.log('🗓️ Requesting payslip for:', yearMonth);
 
-    await getSalarySlip(token, yearMonth);
-
-    if (!pdfData) {
-      Alert.alert(
-        'Payslip Not Found',
-        'Could not find payslip for selected month.',
-      );
+    try {
+      await getSalarySlip(token, yearMonth);
+    } catch (error) {
+      Alert.alert('Notice', error.message);
+      setVisible(false);
     }
   };
 

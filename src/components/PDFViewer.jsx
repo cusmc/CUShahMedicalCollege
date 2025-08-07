@@ -11,7 +11,7 @@ import {
 import Pdf from 'react-native-pdf';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Feather';
 
 const PDFViewer = ({ base64Data, onClose }) => {
   if (!base64Data) {
@@ -70,7 +70,7 @@ const PDFViewer = ({ base64Data, onClose }) => {
             style={styles.iconButton}
             activeOpacity={0.6}
           >
-            <Ionicons name="download-outline" size={22} color="#333" />
+            <Icon name="save" size={24} color="#000" />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -81,7 +81,7 @@ const PDFViewer = ({ base64Data, onClose }) => {
             style={styles.iconButton}
             activeOpacity={0.6}
           >
-            <Ionicons name="share-social-outline" size={22} color="#333" />
+            <Icon name="share-2" size={24} color="#333" />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -92,7 +92,7 @@ const PDFViewer = ({ base64Data, onClose }) => {
             style={styles.iconButton}
             activeOpacity={0.6}
           >
-            <Ionicons name="close" size={22} color="#333" />
+            <Icon name="x" size={24} color="#333" />
           </TouchableOpacity>
         </View>
       </View>
@@ -109,25 +109,23 @@ const PDFViewer = ({ base64Data, onClose }) => {
   );
 };
 
-export default PDFViewer;
-
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
   },
   header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 16,
     backgroundColor: '#f8f9fa',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottomColor: '#ddd',
     borderBottomWidth: 1,
+    borderBottomColor: '#dee2e6',
   },
   title: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: '#333',
   },
   actions: {
@@ -135,13 +133,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconButton: {
-    marginLeft: 16,
+    padding: 8,
+    marginLeft: 8,
   },
   pdf: {
     flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
-    backgroundColor: '#f2f2f2',
   },
   centered: {
     flex: 1,
@@ -151,6 +149,9 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: '#999',
+    color: '#666',
+    textAlign: 'center',
   },
 });
+
+export default PDFViewer;

@@ -32,9 +32,11 @@ export default StyleSheet.create({
     marginBottom: Metrics.sm,
   },
   tagline: {
-    color: Colors.primaryLight,
-    fontSize: Metrics.fontSize.lg,
+    color: Colors.white,
+    fontSize: Metrics.fontSize.xl,
     textAlign: 'center',
+    fontWeight: "Bold",
+    marginBottom: Metrics.xl,
   },
   loadingContainer: {
     flexDirection: 'row',
