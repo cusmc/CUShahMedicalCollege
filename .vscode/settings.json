@@ -1,5 +1,10 @@
 {
-  "java.compile.nullAnalysis.mode": "automatic",
-  "java.configuration.updateBuildConfiguration": "automatic",
-  "cSpell.words": ["cmdline", "LASTEXITCODE", "Shri"]
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "java.project.resourceFilters": [
+    "excludepattern:**/node_modules",
+    "excludepattern:**/.gradle",
+    "excludepattern:**/android/.idea",
+    "excludepattern:**/android/build"
+  ],
+  "java.compile.nullAnalysis.mode": "automatic"
 }
