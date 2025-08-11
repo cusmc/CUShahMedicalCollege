@@ -7,11 +7,11 @@ export const Strings = {
   splashLoading: 'Loading...',
   
   // Login Screen
-  loginWelcome: 'Welcome Back',
-  loginSubtitle: 'Sign in to your account',
+  loginWelcome: 'Welcome',
+  loginSubtitle: 'Your C U Shah Family Account awaits  Sign in to continue.',
   loginTitle: 'Login',
   usernameLabel: 'Username',
-  usernamePlaceholder: 'Enter your username',
+  usernamePlaceholder: 'Enter your User ID',
   passwordLabel: 'Password',
   passwordPlaceholder: 'Enter your password',
   forgotPassword: 'Forgot Password?',

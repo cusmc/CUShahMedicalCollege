@@ -46,7 +46,7 @@ export const useSalarySlip = () => {
       setAvailableMonths(months);
       return months;
     } catch (error) {
-      console.error('❌ Error fetching available months:', error);
+      // console.error('❌ Error fetching available months:', error);
       Alert.alert('Error', 'Could not fetch available months');
       return [];
     }
@@ -79,7 +79,7 @@ export const useSalarySlip = () => {
       setPdfData(base64);
       setVisible(true);
     } catch (err) {
-      console.error('❌ SalarySlip Error:', err);
+      // console.error('❌ SalarySlip Error:', err);
       setPdfData(null);
       if (err.message.includes('401')) {
         throw new Error('Session expired. Please login again.');

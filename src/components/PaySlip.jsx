@@ -44,7 +44,7 @@ const PaySlip = ({ navigation }) => {
       console.log('📥 Fetched Token:', storedToken);
       if (storedToken) setToken(storedToken);
     } catch (e) {
-      console.log('❌ Error fetching token:', e);
+      // console.log('❌ Error fetching token:', e);
     }
   };
 
@@ -57,8 +57,8 @@ const PaySlip = ({ navigation }) => {
   }, []);
 
   const handleSubmit = async () => {
-    console.log('📤 Selected Month:', selectedMonth);
-    console.log('🔐 Token:', token);
+    // console.log('📤 Selected Month:', selectedMonth);
+    // console.log('🔐 Token:', token);
 
     if (!selectedMonth) {
       Alert.alert('Error', 'Select a month first.');
@@ -118,13 +118,13 @@ const PaySlip = ({ navigation }) => {
           <Picker
             selectedValue={selectedMonth}
             onValueChange={itemValue => {
-              console.log('📅 Month Selected:', itemValue);
+              // console.log('📅 Month Selected:', itemValue);
               setSelectedMonth(itemValue);
             }}
           >
-            <Picker.Item label="-- Select Month --" value="" />
+            <Picker.Item style={styles.picker} label="-- Select Month --" value="" />
             {months.map((month, index) => (
-              <Picker.Item key={index} label={month} value={month} />
+              <Picker.Item style={styles.pickeritems} key={index} label={month} value={month} />
             ))}
           </Picker>
         </View>
@@ -161,15 +161,17 @@ const styles = StyleSheet.create({
     padding: Metrics?.lg || 20,
   },
   heading: {
-    fontSize: 18,
-    marginBottom: 10,
+    fontSize: 20,
+    marginBottom: 15,
     fontWeight: 'bold',
   },
   pickerWrapper: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 6,
+    borderWidth: 3,
+    borderColor: 'red',
+    borderRadius: 15,
     marginBottom: 20,
+    // color: '#333',
+    backgroundColor: '#2e86de',
   },
   button: {
     backgroundColor: Colors?.primary || '#2e86de',
@@ -181,4 +183,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: '600',
   },
+  picker:{
+    color:'#fff',
+    backgroundColor:'#2e86de'
+  },
+  pickeritems:{
+    color:'#fff',
+    backgroundColor:'#2e86de'
+  }
 });

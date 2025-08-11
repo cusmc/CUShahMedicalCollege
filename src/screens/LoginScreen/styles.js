@@ -22,17 +22,18 @@ export default StyleSheet.create({
     marginBottom: Metrics.xxl,
   },
   logoContainer: {
-    width: 80,
-    height: 80,
+    width: 120,
+    height: 120,
     backgroundColor: Colors.white,
-    borderRadius: 40,
+    borderRadius: 74,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: Metrics.lg,
   },
   logoImage: {
-    width: 64,
-    height: 64,
+    width: 150,
+    height: 150,
+    marginBottom: 25,
     borderRadius: 32,
     shadowColor: '#000',
     shadowOffset: {
@@ -101,4 +102,5 @@ export default StyleSheet.create({
     color: Colors.primaryLight,
     fontWeight: '600',
   },
+
 });

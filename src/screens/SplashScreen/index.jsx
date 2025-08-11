@@ -43,7 +43,7 @@ const SplashScreen = ({ onFinish }) => {
     // Auto navigate after 3 seconds
     const timer = setTimeout(() => {
       onFinish();
-    }, 15000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [fadeAnim, scaleAnim, logoAnim, onFinish]);

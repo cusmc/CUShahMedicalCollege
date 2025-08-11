@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // Import auth screens
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
+import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 
 const Stack = createStackNavigator();
 
@@ -16,6 +17,7 @@ const AuthNavigator = () => {
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
       {/* Add more auth screens here like Register, ForgotPassword, etc. */}
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="HRMain" component={HR} />

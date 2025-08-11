@@ -111,7 +111,7 @@ export const AuthProvider = ({ children }) => {
       return { success: true, token: accessToken, user: userData };
     } catch (error) {
       setIsLoading(false);
-      console.error('🔴 Login failed:', error.response?.data || error.message);
+      // console.error('🔴 Login failed:', error.response?.data || error.message);
 
       const errorDescription =
         error.response?.data?.error_description ||

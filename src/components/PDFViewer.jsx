@@ -7,6 +7,8 @@ import {
   Dimensions,
   SafeAreaView,
   Alert,
+  Platform,
+  Linking,
 } from 'react-native';
 import Pdf from 'react-native-pdf';
 import RNFS from 'react-native-fs';
@@ -27,23 +29,50 @@ const PDFViewer = ({ base64Data, onClose }) => {
     cache: true,
   };
 
-  const filePath = `${RNFS.DocumentDirectoryPath}/salary-slip.pdf`;
+  // Save path in app private directory (no permission needed)
+  const getFilePath = () => {
+    return `${RNFS.DocumentDirectoryPath}/salary-slip.pdf`;
+  };
 
   const savePDF = async () => {
     try {
+      const filePath = getFilePath();
       await RNFS.writeFile(filePath, base64Data, 'base64');
-      Alert.alert('Download Complete', 'PDF saved successfully!');
+      Alert.alert(
+        'Download Complete',
+        `PDF saved successfully to:\n${filePath}`,
+      );
+      openPDF(filePath);
     } catch (err) {
-      Alert.alert('Error', 'Failed to save PDF');
       console.log('Save Error:', err);
+      Alert.alert('Error', 'Failed to save PDF');
     }
+  };
+
+  const openPDF = path => {
+    const fileUri = Platform.OS === 'android' ? `file://${path}` : path;
+    Linking.canOpenURL(fileUri)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(fileUri);
+        } else {
+          Alert.alert('Error', 'Cannot open saved PDF file.');
+        }
+      })
+      .catch(err => {
+        console.log('Open file error:', err);
+        Alert.alert('Error', 'Failed to open PDF file.');
+      });
   };
 
   const sharePDF = async () => {
     try {
+      const filePath = getFilePath();
+      // Save the file before sharing
       await RNFS.writeFile(filePath, base64Data, 'base64');
+
       await Share.open({
-        url: `file://${filePath}`,
+        url: Platform.OS === 'android' ? `file://${filePath}` : filePath,
         type: 'application/pdf',
         title: 'Share Salary Slip',
         failOnCancel: false,
@@ -103,6 +132,7 @@ const PDFViewer = ({ base64Data, onClose }) => {
         trustAllCerts={false}
         onError={error => {
           console.log('PDF Error:', error);
+          Alert.alert('Error', 'Failed to load PDF.');
         }}
       />
     </SafeAreaView>

@@ -10,8 +10,8 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   logoContainer: {
-    width: 128,
-    height: 128,
+    width: 105,
+    height: 105,
     backgroundColor: Colors.white,
     borderRadius: 64,
     alignItems: 'center',
