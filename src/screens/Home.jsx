@@ -24,7 +24,7 @@ const Home = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <Header
-        title="C U SHAH MEDICAL COLLAGE..."
+        title="HITARTH SHAH"
         showMenu={true}
         onMenuPress={handleMenuPress}
         showList={true}
