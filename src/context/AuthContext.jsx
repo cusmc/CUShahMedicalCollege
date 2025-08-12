@@ -121,12 +121,48 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const validateToken = async (tokenToValidate) => {
+    if (!tokenToValidate) {
+      return false;
+    }
+
+    try {
+      // Basic token validation - check if it's not empty and has reasonable length
+      if (tokenToValidate.length < 10) {
+        return false;
+      }
+
+      // You could add more sophisticated validation here, such as:
+      // - JWT token expiration check
+      // - Server-side token validation
+      // For now, we'll do basic validation
+      return true;
+    } catch (error) {
+      console.error('❌ Token validation error:', error);
+      return false;
+    }
+  };
+
   const logout = async () => {
     setIsAuthenticated(false);
     setUser(null);
     setToken(null);
     await clearAuthData();
     console.log('👋 User logged out');
+  };
+
+  const refreshAuthState = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN);
+      const isValid = await validateToken(storedToken);
+      
+      if (!isValid && isAuthenticated) {
+        console.log('⚠️ Invalid token detected, logging out');
+        await logout();
+      }
+    } catch (error) {
+      console.error('❌ Error refreshing auth state:', error);
+    }
   };
 
   return (
@@ -138,6 +174,8 @@ export const AuthProvider = ({ children }) => {
         token,
         login,
         logout,
+        validateToken,
+        refreshAuthState,
       }}
     >
       {children}

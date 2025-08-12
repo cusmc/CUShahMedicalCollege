@@ -79,12 +79,20 @@ export const useSalarySlip = () => {
       setPdfData(base64);
       setVisible(true);
     } catch (err) {
-      // console.error('❌ SalarySlip Error:', err);
+      console.error('❌ SalarySlip Error:', err);
       setPdfData(null);
-      if (err.message.includes('401')) {
+      
+      // Handle different types of errors
+      if (err.message.includes('401') || err.message.includes('Status: 401')) {
         throw new Error('Session expired. Please login again.');
-      } else if (err.message.includes('404')) {
+      } else if (err.message.includes('403') || err.message.includes('Status: 403')) {
+        throw new Error('Access denied. Please check your permissions.');
+      } else if (err.message.includes('404') || err.message.includes('Status: 404')) {
         throw new Error('Payslip not available for this month.');
+      } else if (err.message.includes('500') || err.message.includes('Status: 500')) {
+        throw new Error('Server error. Please try again later.');
+      } else if (err.message.includes('Network')) {
+        throw new Error('Network error. Please check your connection.');
       } else {
         throw new Error('Unable to fetch payslip. Please try again.');
       }

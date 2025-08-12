@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
+  FlatList,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import PDFViewer from './PDFViewer';
@@ -14,12 +15,11 @@ import { useSalarySlip } from '../hooks/useSalarySlip';
 import Header from '../components/Header';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
-import { STORAGE_KEYS } from '../constants/StorageKeys';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../context/AuthContext';
 
 const PaySlip = ({ navigation }) => {
   const [selectedMonth, setSelectedMonth] = useState('');
-  const [token, setToken] = useState('');
+  const { token, isAuthenticated, logout } = useAuth();
   const { getSalarySlip, pdfData, loading, visible, setVisible } =
     useSalarySlip();
 
@@ -38,35 +38,51 @@ const PaySlip = ({ navigation }) => {
     'December',
   ];
 
-  const fetchToken = async () => {
-    try {
-      const storedToken = await AsyncStorage.getItem(STORAGE_KEYS.TOKEN);
-      console.log('📥 Fetched Token:', storedToken);
-      if (storedToken) setToken(storedToken);
-    } catch (e) {
-      // console.log('❌ Error fetching token:', e);
-    }
-  };
-
   useEffect(() => {
     const currentMonth = new Date().toLocaleString('default', {
       month: 'long',
     });
     setSelectedMonth(currentMonth);
-    fetchToken();
-  }, []);
+    
+    // Check if user is authenticated, if not redirect to login
+    if (!isAuthenticated) {
+      Alert.alert(
+        'Authentication Required',
+        'Please login to access payslips.',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Login')
+          }
+        ]
+      );
+    }
+  }, [isAuthenticated]);
 
   const handleSubmit = async () => {
-    // console.log('📤 Selected Month:', selectedMonth);
-    // console.log('🔐 Token:', token);
-
     if (!selectedMonth) {
       Alert.alert('Error', 'Select a month first.');
       return;
     }
 
-    if (!token) {
-      Alert.alert('Error', 'Token not found. Please login again.');
+    if (!isAuthenticated || !token) {
+      Alert.alert(
+        'Authentication Error',
+        'Token not found. Please login again.',
+        [
+          {
+            text: 'Login',
+            onPress: () => {
+              logout(); // Clear any invalid auth state
+              navigation.navigate('Login');
+            }
+          },
+          {
+            text: 'Cancel',
+            style: 'cancel'
+          }
+        ]
+      );
       return;
     }
 
@@ -84,7 +100,24 @@ const PaySlip = ({ navigation }) => {
     try {
       await getSalarySlip(token, yearMonth);
     } catch (error) {
-      Alert.alert('Notice', error.message);
+      // Handle specific error cases
+      if (error.message.includes('Session expired') || error.message.includes('401')) {
+        Alert.alert(
+          'Session Expired',
+          'Your session has expired. Please login again.',
+          [
+            {
+              text: 'Login',
+              onPress: () => {
+                logout();
+                navigation.navigate('Login');
+              }
+            }
+          ]
+        );
+      } else {
+        Alert.alert('Notice', error.message);
+      }
       setVisible(false);
     }
   };
@@ -117,17 +150,27 @@ const PaySlip = ({ navigation }) => {
         <View style={styles.pickerWrapper}>
           <Picker
             selectedValue={selectedMonth}
+            style={styles.picker}
+            itemStyle={styles.pickerItem}
             onValueChange={itemValue => {
-              // console.log('📅 Month Selected:', itemValue);
+              console.log('📅 Month Selected:', itemValue);
               setSelectedMonth(itemValue);
             }}
           >
-            <Picker.Item style={styles.picker} label="-- Select Month --" value="" />
+            <Picker.Item label="-- Select Month --" value="" color="#fff" />
             {months.map((month, index) => (
-              <Picker.Item style={styles.pickeritems} key={index} label={month} value={month} />
+              <Picker.Item key={index} label={month} value={month} color="#fff" />
             ))}
           </Picker>
         </View>
+        
+        {selectedMonth && selectedMonth !== '' && (
+          <View style={styles.selectedMonthContainer}>
+            <Text style={styles.selectedMonthText}>
+              Selected: {selectedMonth} {new Date().getFullYear()}
+            </Text>
+          </View>
+        )}
 
         <TouchableOpacity onPress={handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>View Payslip</Text>
@@ -164,31 +207,65 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 15,
     fontWeight: 'bold',
+    color: '#333',
   },
   pickerWrapper: {
-    borderWidth: 3,
-    borderColor: 'red',
-    borderRadius: 15,
-    marginBottom: 20,
-    // color: '#333',
+    borderWidth: 2,
+    borderColor: '#2e86de',
+    borderRadius: 12,
+    marginBottom: 15,
     backgroundColor: '#2e86de',
+    overflow: 'hidden',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  picker: {
+    color: '#fff',
+    backgroundColor: 'transparent',
+    height: 50,
+  },
+  pickerItem: {
+    color: '#fff',
+    backgroundColor: '#2e86de',
+    fontSize: 16,
+  },
+  selectedMonthContainer: {
+    backgroundColor: '#e8f4fd',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+    borderLeftColor: '#2e86de',
+  },
+  selectedMonthText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#2e86de',
+    textAlign: 'center',
   },
   button: {
     backgroundColor: Colors?.primary || '#2e86de',
-    padding: 12,
-    borderRadius: 6,
+    padding: 15,
+    borderRadius: 8,
     alignItems: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
   },
   buttonText: {
     color: '#fff',
     fontWeight: '600',
+    fontSize: 16,
   },
-  picker:{
-    color:'#fff',
-    backgroundColor:'#2e86de'
-  },
-  pickeritems:{
-    color:'#fff',
-    backgroundColor:'#2e86de'
-  }
 });
