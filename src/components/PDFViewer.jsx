@@ -31,38 +31,53 @@ const PDFViewer = ({ base64Data, onClose }) => {
     cache: true,
   };
 
-  // Request storage permission for Android
-  const requestStoragePermission = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        // Check Android version and request appropriate permissions
+  const savePDF = async () => {
+    try {
+      const fileName = `salary-slip-${Date.now()}.pdf`;
+      const filePath = `${RNFS.DocumentDirectoryPath}/${fileName}`; // Default for iOS
+
+      if (Platform.OS === 'android') {
         const androidVersion = Platform.Version;
-        
-        if (androidVersion >= 33) {
-          // Android 13+ (API 33+) - Request media permissions
-          const granted = await PermissionsAndroid.requestMultiple([
-            PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
-            PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
-            PermissionsAndroid.PERMISSIONS.READ_MEDIA_AUDIO,
-          ]);
-          return Object.values(granted).every(
-            permission => permission === PermissionsAndroid.RESULTS.GRANTED
-          );
-        } else if (androidVersion >= 30) {
-          // Android 11+ (API 30+) - Request MANAGE_EXTERNAL_STORAGE
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.MANAGE_EXTERNAL_STORAGE,
-            {
-              title: 'Storage Permission Required',
-              message: 'This app needs access to storage to save PDF files',
-              buttonNeutral: 'Ask Me Later',
-              buttonNegative: 'Cancel',
-              buttonPositive: 'OK',
-            }
-          );
-          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        if (androidVersion >= 29) {
+          // Android 10 (API 29) and above: Use DownloadManager via RNBlobUtil
+          const path = RNFS.DownloadDirectoryPath + '/' + fileName;
+          const base64Pdf = base64Data;
+
+          const configOptions = {
+            fileCache: true,
+            path: path,
+            addAndroidDownloads: {
+              useDownloadManager: true,
+              notification: true,
+              path: path,
+              description: 'Salary Slip PDF',
+              mime: 'application/pdf',
+              mediaScannable: true,
+            },
+          };
+
+          RNBlobUtil.fs.writeFile(path, base64Pdf, 'base64')
+            .then(() => {
+              RNBlobUtil.android.actionViewIntent(path, 'application/pdf')
+                .then(() => {
+                  Alert.alert(
+                    'Success',
+                    'PDF saved and opened successfully in Downloads folder!',
+                    [{ text: 'OK' }]
+                  );
+                })
+                .catch(e => {
+                  console.error('Failed to open PDF:', e);
+                  Alert.alert('Error', 'PDF saved to Downloads, but failed to open.');
+                });
+            })
+            .catch(e => {
+              console.error('Failed to save PDF:', e);
+              Alert.alert('Error', `Failed to save PDF: ${e.message}`);
+            });
+
         } else {
-          // Android 10 and below - Use legacy storage permission
+          // Android 9 and below: Request WRITE_EXTERNAL_STORAGE permission
           const granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
             {
@@ -73,124 +88,34 @@ const PDFViewer = ({ base64Data, onClose }) => {
               buttonPositive: 'OK',
             }
           );
-          return granted === PermissionsAndroid.RESULTS.GRANTED;
-        }
-      } catch (err) {
-        console.warn('Permission error:', err);
-        return false;
-      }
-    }
-    return true;
-  };
-
-  // Get appropriate file path based on platform
-  const getFilePath = () => {
-    const fileName = `salary-slip-${Date.now()}.pdf`;
-    
-    if (Platform.OS === 'android') {
-      // Use Downloads directory for Android
-      return `${RNFS.DownloadDirectoryPath}/${fileName}`;
-    } else {
-      // Use Documents directory for iOS
-      return `${RNFS.DocumentDirectoryPath}/${fileName}`;
-    }
-  };
-
-  const savePDF = async () => {
-    try {
-      const fileName = `salary-slip-${Date.now()}.pdf`;
-      
-      if (Platform.OS === 'android') {
-        // Use RNBlobUtil's MediaCollection for Android 10+ compatibility
-        const androidVersion = Platform.Version;
-        
-        if (androidVersion >= 29) {
-          // Android 10+ - Try MediaCollection first, fallback to cache directory
-          try {
-            const result = await RNBlobUtil.MediaCollection.copyToMediaStore(
-              {
-                name: fileName,
-                parentFolder: 'Download',
-                mimeType: 'application/pdf',
-              },
-              'Download',
-              `data:application/pdf;base64,${base64Data}`
-            );
-            
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            const androidFilePath = `${RNFS.DownloadDirectoryPath}/${fileName}`;
+            await RNFS.writeFile(androidFilePath, base64Data, 'base64');
             Alert.alert(
               'Success',
               'PDF saved successfully to Downloads folder!',
               [
                 {
                   text: 'OK',
-                  onPress: () => console.log('PDF saved via MediaCollection')
-                }
-              ]
-            );
-          } catch (mediaError) {
-            console.log('MediaCollection failed, using cache directory:', mediaError);
-            // Fallback: Save to cache directory and let user know
-            const cachePath = `${RNFS.CachesDirectoryPath}/${fileName}`;
-            await RNFS.writeFile(cachePath, base64Data, 'base64');
-            
-            Alert.alert(
-              'PDF Saved',
-              'PDF saved to app cache. You can share it using the Share button.',
-              [
-                {
-                  text: 'OK',
-                  onPress: () => console.log('PDF saved to cache:', cachePath)
+                  onPress: () => openPDF(androidFilePath),
                 },
-                {
-                  text: 'Share Now',
-                  onPress: () => sharePDF()
-                }
               ]
             );
-          }
-        } else {
-          // Android 9 and below - Use traditional file system with permissions
-          const hasPermission = await requestStoragePermission();
-          if (!hasPermission) {
+          } else {
             Alert.alert('Permission Denied', 'Storage permission is required to save PDF files.');
-            return;
           }
-
-          const filePath = `${RNFS.DownloadDirectoryPath}/${fileName}`;
-          await RNBlobUtil.fs.writeFile(filePath, base64Data, 'base64');
-          
-          Alert.alert(
-            'Success',
-            'PDF saved successfully to Downloads folder!',
-            [
-              {
-                text: 'OK',
-                onPress: () => console.log('PDF saved to:', filePath)
-              },
-              {
-                text: 'Open',
-                onPress: () => openPDF(filePath)
-              }
-            ]
-          );
         }
       } else {
-        // iOS - Use Documents directory
-        const filePath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+        // iOS: Save to Documents directory
         await RNFS.writeFile(filePath, base64Data, 'base64');
-        
         Alert.alert(
           'Success',
-          'PDF saved successfully!',
+          'PDF saved successfully to Documents folder!',
           [
             {
               text: 'OK',
-              onPress: () => console.log('PDF saved to:', filePath)
+              onPress: () => openPDF(filePath),
             },
-            {
-              text: 'Open',
-              onPress: () => openPDF(filePath)
-            }
           ]
         );
       }

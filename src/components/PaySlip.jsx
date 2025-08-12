@@ -43,7 +43,7 @@ const PaySlip = ({ navigation }) => {
       month: 'long',
     });
     setSelectedMonth(currentMonth);
-    
+
     // Check if user is authenticated, if not redirect to login
     if (!isAuthenticated) {
       Alert.alert(
@@ -52,9 +52,9 @@ const PaySlip = ({ navigation }) => {
         [
           {
             text: 'OK',
-            onPress: () => navigation.navigate('Login')
-          }
-        ]
+            onPress: () => navigation.navigate('Login'),
+          },
+        ],
       );
     }
   }, [isAuthenticated]);
@@ -75,13 +75,13 @@ const PaySlip = ({ navigation }) => {
             onPress: () => {
               logout(); // Clear any invalid auth state
               navigation.navigate('Login');
-            }
+            },
           },
           {
             text: 'Cancel',
-            style: 'cancel'
-          }
-        ]
+            style: 'cancel',
+          },
+        ],
       );
       return;
     }
@@ -101,7 +101,10 @@ const PaySlip = ({ navigation }) => {
       await getSalarySlip(token, yearMonth);
     } catch (error) {
       // Handle specific error cases
-      if (error.message.includes('Session expired') || error.message.includes('401')) {
+      if (
+        error.message.includes('Session expired') ||
+        error.message.includes('401')
+      ) {
         Alert.alert(
           'Session Expired',
           'Your session has expired. Please login again.',
@@ -111,9 +114,9 @@ const PaySlip = ({ navigation }) => {
               onPress: () => {
                 logout();
                 navigation.navigate('Login');
-              }
-            }
-          ]
+              },
+            },
+          ],
         );
       } else {
         Alert.alert('Notice', error.message);
@@ -156,14 +159,22 @@ const PaySlip = ({ navigation }) => {
               console.log('📅 Month Selected:', itemValue);
               setSelectedMonth(itemValue);
             }}
+            mode="dropdown" // Explicitly set mode to dropdown
           >
-            <Picker.Item label="-- Select Month --" value="" color="#fff" />
+            <Picker.Item
+              label="-- Select Month --"
+              value=""
+            />
             {months.map((month, index) => (
-              <Picker.Item key={index} label={month} value={month} color="#fff" />
+              <Picker.Item
+                key={index}
+                label={month}
+                value={month}
+              />
             ))}
           </Picker>
         </View>
-        
+
         {selectedMonth && selectedMonth !== '' && (
           <View style={styles.selectedMonthContainer}>
             <Text style={styles.selectedMonthText}>
@@ -204,10 +215,10 @@ const styles = StyleSheet.create({
     padding: Metrics?.lg || 20,
   },
   heading: {
-    fontSize: 20,
-    marginBottom: 15,
+    fontSize: Metrics.fontSize.xxxl,
+    marginBottom: Metrics.md,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.textPrimary,
   },
   pickerWrapper: {
     borderWidth: 2,
@@ -226,13 +237,11 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   picker: {
-    color: '#fff',
-    backgroundColor: 'transparent',
+    // Removed color and backgroundColor to allow native styling
     height: 50,
   },
   pickerItem: {
-    color: '#fff',
-    backgroundColor: '#2e86de',
+    // Removed color and backgroundColor to allow native styling
     fontSize: 16,
   },
   selectedMonthContainer: {
