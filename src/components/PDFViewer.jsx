@@ -277,8 +277,11 @@ const styles = StyleSheet.create({
   },
   pdf: {
     flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    padding:10,
+    width: 360,
+    height: 490,
+    justifyContent:"space-evenly",
+    alignItems:"center"
   },
   centered: {
     flex: 1,
