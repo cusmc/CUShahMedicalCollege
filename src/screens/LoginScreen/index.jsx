@@ -35,10 +35,10 @@ const LoginScreen = ({ navigation }) => {
       const result = await login({ username, password });
 
       if (result.success) {
-        // console.log('✅ Login successful, navigating to Home...');
+        console.log('✅ Login successful, navigating to Home...');
         // Navigation handled by isAuthenticated change
       } else {
-        // console.log('❌ Login failed:', result.error);
+        console.log('❌ Login failed:', result.error);
         Alert.alert(
           Strings.loginError,
           result.error || Strings.loginErrorMessage,
