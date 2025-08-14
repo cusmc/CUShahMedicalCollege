@@ -14,9 +14,14 @@ const Home = ({ navigation }) => {
         navigation.getParent().openDrawer();
       } else {
         console.log('Drawer navigation not available');
+        ToastAndroid.show(
+          'Drawer navigation not available',
+          ToastAndroid.SHORT,
+        );
       }
     } catch (error) {
       console.log('Navigation error:', error);
+      ToastAndroid.show('Navigation error:', ToastAndroid.LONG);
     }
   };
 
@@ -24,7 +29,7 @@ const Home = ({ navigation }) => {
     <View style={styles.container}>
       {/* Header */}
       <Header
-        title="HITARTH SHAH"
+        title="C U SHAH MEDICAL COLLEGE"
         showMenu={true}
         onMenuPress={handleMenuPress}
         showList={true}

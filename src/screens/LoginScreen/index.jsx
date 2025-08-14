@@ -111,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
               variant="ghost"
               size="small"
               onPress={handleForgotPassword}
-              // disabled={isLoading}
+              disabled={isLoading}
               style={styles.forgotPassword}
             />
 

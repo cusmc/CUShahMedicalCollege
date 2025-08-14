@@ -12,6 +12,7 @@ import Hospital from '../screens/Hospital';
 import ImportantInfo from '../screens/ImportantInfo';
 import Settings from '../screens/Settings';
 import PaySlip from '../components/PaySlip';
+import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 
 const Drawer = createDrawerNavigator();
 
@@ -97,6 +98,13 @@ const DrawerNavigator = () => {
         component={PaySlip}
         options={{
           drawerLabel: '💸 Pay Slip',
+        }}
+      />
+      <Drawer.Screen
+        name="ForgetPassword"
+        component={ForgetPassword}
+        options={{
+          drawerLabel: '💸 ForgetPassword',
         }}
       />
     </Drawer.Navigator>

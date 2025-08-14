@@ -88,7 +88,7 @@ const PaySlip = ({ navigation }) => {
 
     const monthIndex = months.indexOf(selectedMonth);
     if (monthIndex === -1) {
-      Alert.alert('Invalid Month', 'The selected month is not valid.');
+      // Alert.alert('Invalid Month', 'The selected month is not valid.');
       return;
     }
 
@@ -105,21 +105,21 @@ const PaySlip = ({ navigation }) => {
         error.message.includes('Session expired') ||
         error.message.includes('401')
       ) {
-        Alert.alert(
-          'Session Expired',
-          'Your session has expired. Please login again.',
-          [
-            {
-              text: 'Login',
-              onPress: () => {
-                logout();
-                navigation.navigate('Login');
-              },
-            },
-          ],
-        );
+        // Alert.alert(
+        //   'Session Expired',
+        //   'Your session has expired. Please login again.',
+        //   [
+        //     {
+        //       text: 'Login',
+        //       onPress: () => {
+        //         logout();
+        //         navigation.navigate('Login');
+        //       },
+        //     },
+        //   ],
+        // );
       } else {
-        Alert.alert('Notice', error.message);
+        // Alert.alert('Notice', error.message);
       }
       setVisible(false);
     }
@@ -198,6 +198,7 @@ const PaySlip = ({ navigation }) => {
         {visible && pdfData && (
           <PDFViewer base64Data={pdfData} onClose={() => setVisible(false)} />
         )}
+        ToastAndroid.show('Error: MEET ', ToastAndroid.SHORT);
       </View>
     </ScrollView>
   );

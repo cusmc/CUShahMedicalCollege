@@ -56,26 +56,27 @@ const PDFViewer = ({ base64Data, onClose }) => {
             },
           };
 
-          RNBlobUtil.fs.writeFile(path, base64Pdf, 'base64')
+          RNBlobUtil.fs
+            .writeFile(path, base64Pdf, 'base64')
             .then(() => {
-              RNBlobUtil.android.actionViewIntent(path, 'application/pdf')
-                .then(() => {
-                  Alert.alert(
-                    'Success',
-                    'PDF saved and opened successfully in Downloads folder!',
-                    [{ text: 'OK' }]
-                  );
-                })
+              RNBlobUtil.android
+                .actionViewIntent(path, 'application/pdf')
+                // .then(() => {
+                //   Alert.alert(
+                //     'Success',
+                //     'PDF saved and opened successfully in Downloads folder!',
+                //     [{ text: 'OK' }]
+                //   );
+                // })
                 .catch(e => {
                   console.error('Failed to open PDF:', e);
-                  Alert.alert('Error', 'PDF saved to Downloads, but failed to open.');
+                  // Alert.alert('Error', 'PDF saved to Downloads, but failed to open.');
                 });
             })
             .catch(e => {
               console.error('Failed to save PDF:', e);
-              Alert.alert('Error', `Failed to save PDF: ${e.message}`);
+              // Alert.alert('Error', `Failed to save PDF: ${e.message}`);
             });
-
         } else {
           // Android 9 and below: Request WRITE_EXTERNAL_STORAGE permission
           const granted = await PermissionsAndroid.request(
@@ -86,7 +87,7 @@ const PDFViewer = ({ base64Data, onClose }) => {
               buttonNeutral: 'Ask Me Later',
               buttonNegative: 'Cancel',
               buttonPositive: 'OK',
-            }
+            },
           );
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             const androidFilePath = `${RNFS.DownloadDirectoryPath}/${fileName}`;
@@ -99,33 +100,41 @@ const PDFViewer = ({ base64Data, onClose }) => {
                   text: 'OK',
                   onPress: () => openPDF(androidFilePath),
                 },
-              ]
+              ],
             );
           } else {
-            Alert.alert('Permission Denied', 'Storage permission is required to save PDF files.');
+            Alert.alert(
+              'Permission Denied',
+              'Storage permission is required to save PDF files.',
+            );
           }
         }
-      } else {
-        // iOS: Save to Documents directory
-        await RNFS.writeFile(filePath, base64Data, 'base64');
-        Alert.alert(
-          'Success',
-          'PDF saved successfully to Documents folder!',
-          [
-            {
-              text: 'OK',
-              onPress: () => openPDF(filePath),
-            },
-          ]
-        );
       }
+      //  else {
+      // iOS: Save to Documents directory
+      //   await RNFS.writeFile(filePath, base64Data, 'base64');
+      //   Alert.alert(
+      //     'Success',
+      //     'PDF saved successfully to Documents folder!',
+      //     [
+      //       {
+      //         text: 'OK',
+      //         onPress: () => openPDF(filePath),
+      //       },
+      //     ]
+      //   );
+      // }
     } catch (err) {
       console.error('Save Error:', err);
       Alert.alert('Error', `Failed to save PDF: ${err.message}`);
+      ToastAndroid.show(
+        'Error: `Failed to save PDF ${err.message}',
+        ToastAndroid.SHORT,
+      );
     }
   };
 
-  const openPDF = async (path) => {
+  const openPDF = async path => {
     try {
       if (Platform.OS === 'android') {
         // Use RNBlobUtil to open PDF on Android
@@ -137,12 +146,20 @@ const PDFViewer = ({ base64Data, onClose }) => {
         if (supported) {
           await Linking.openURL(fileUri);
         } else {
-          Alert.alert('Error', 'Cannot open PDF file. Please install a PDF viewer app.');
+          // Alert.alert(
+          //   'Error',
+          //   'Cannot open PDF file. Please install a PDF viewer app.',
+          // );
+          ToastAndroid.show(
+            'Error: Cannot Open PDF file. Please install a PDF viewer application',
+            ToastAndroid.SHORT,
+          );
         }
       }
     } catch (err) {
       console.error('Open file error:', err);
-      Alert.alert('Error', 'Failed to open PDF file.');
+      // Alert.alert('Error', 'Failed to open PDF file.');
+      ToastAndroid.show('Error: `Failed to open PDF file.', ToastAndroid.SHORT);
     }
   };
 
@@ -151,10 +168,10 @@ const PDFViewer = ({ base64Data, onClose }) => {
       // Create a temporary file for sharing
       const tempFileName = `salary-slip-${Date.now()}.pdf`;
       const tempPath = `${RNFS.CachesDirectoryPath}/${tempFileName}`;
-      
+
       // Write file to cache directory (no permissions needed)
       await RNFS.writeFile(tempPath, base64Data, 'base64');
-      
+
       const shareOptions = {
         title: 'Share Salary Slip',
         message: 'Here is your salary slip',
@@ -166,16 +183,19 @@ const PDFViewer = ({ base64Data, onClose }) => {
 
       const result = await Share.open(shareOptions);
       console.log('Share result:', result);
-      
+
       // Clean up temp file after sharing
       setTimeout(() => {
         RNFS.unlink(tempPath).catch(err => console.log('Cleanup error:', err));
-      }, 5000);
-      
+      }, 500);
     } catch (error) {
       if (error.message !== 'User did not share') {
         console.error('Share Error:', error);
-        Alert.alert('Error', 'Failed to share PDF. Please try again.');
+        // Alert.alert('Error', 'Failed to share PDF. Please try again.');
+        ToastAndroid.show(
+          'Error: `Failed to share PDF. Please try again',
+          ToastAndroid.SHORT,
+        );
       }
     }
   };
@@ -220,7 +240,8 @@ const PDFViewer = ({ base64Data, onClose }) => {
         trustAllCerts={false}
         onError={error => {
           console.log('PDF Error:', error);
-          Alert.alert('Error', 'Failed to load PDF.');
+          // Alert.alert('Error', 'Failed to load PDF.');
+          ToastAndroid.show('Error: `Failed to load PDF', ToastAndroid.SHORT);
         }}
       />
     </SafeAreaView>
@@ -242,9 +263,9 @@ const styles = StyleSheet.create({
     borderBottomColor: '#dee2e6',
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: 19,
+    fontWeight: '700',
+    color: 'black',
   },
   actions: {
     flexDirection: 'row',
@@ -277,11 +298,11 @@ const styles = StyleSheet.create({
   },
   pdf: {
     flex: 1,
-    padding:10,
+    padding: 10,
     width: 360,
     height: 490,
-    justifyContent:"space-evenly",
-    alignItems:"center"
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   centered: {
     flex: 1,

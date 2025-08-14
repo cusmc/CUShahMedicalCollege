@@ -19,20 +19,11 @@ const Settings = ({ navigation }) => {
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
   const [darkMode, setDarkMode] = React.useState(false);
 
-  const handleLogout = () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'Logout',
-        style: 'destructive',
-        onPress: async () => {
-          await logout();
-        },
-      },
-    ]);
+  const handleLogout = async () => {
+    // Directly log out and navigate without an alert to avoid Activity lifecycle issues
+    ToastAndroid.show('Hi Hitarth Shah', ToastAndroid.LONG);
+    await logout();
+    navigation.replace('Login'); // Navigate to Login screen after logout
   };
 
   return (
@@ -54,7 +45,7 @@ const Settings = ({ navigation }) => {
         <View style={styles.userCard}>
           <Text style={styles.userLabel}>Logged in as</Text>
           <Text style={styles.userName}>
-            {user?.name || user?.username || 'User'}
+            {user?.name || user?.userName || 'User'}
           </Text>
         </View>
 
@@ -87,7 +78,6 @@ const Settings = ({ navigation }) => {
         <View style={styles.logoutContainer}>
           <Button
             title="Logout"
-            variant="outline"
             onPress={handleLogout}
             fullWidth
             style={styles.logoutButton}
@@ -161,8 +151,9 @@ const styles = StyleSheet.create({
     marginBottom: Metrics.xl,
   },
   logoutButton: {
-    borderColor: Colors.error,
-    borderWidth: 2,
+    marginBottom: Metrics.lg,
+    // borderColor: Colors.error,
+    // borderWidth: 2,
   },
 });
 
