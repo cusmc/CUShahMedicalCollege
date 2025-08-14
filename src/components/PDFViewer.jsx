@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  Dimensions,
+  // Dimensions,
   SafeAreaView,
   Alert,
   Platform,
