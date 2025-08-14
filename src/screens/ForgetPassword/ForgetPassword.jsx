@@ -3,13 +3,20 @@ import { StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { SafeAreaView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Header from '../components/Header';
 
 const ForgetPassword = () => {
   return (
     <SafeAreaProvider>
+      <Header
+        title="💸 ForgetPassword"
+        showMenu={true}
+        // onMenuPress={handleMenuPress}
+        showList={true}
+      />
       <SafeAreaView style={styles.container}>
         <WebView
-          source={{ uri: 'https://smc.cusmc.org/' }} // Replace with your desired URL
+          source={{ uri: 'https://smc.cusmc.org/Account/ForgotPasswordUser' }} // Replace with your desired URL
           style={styles.webview}
         />
       </SafeAreaView>

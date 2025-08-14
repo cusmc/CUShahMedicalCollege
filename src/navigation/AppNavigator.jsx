@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 // Import screens
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
+import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 import DrawerNavigator from './DrawerNavigator';
 
 const Stack = createStackNavigator();
@@ -15,28 +16,12 @@ const AppNavigator = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // Show splash for 3 seconds
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 3000);
-
+    const timer = setTimeout(() => setShowSplash(false), 3000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Debug logging
-  console.log(
-    '🔍 AppNavigator - isAuthenticated:',
-    isAuthenticated,
-    'isLoading:',
-    isLoading,
-  );
-
-  if (showSplash) {
+  if (showSplash || isLoading) {
     return <SplashScreen onFinish={() => setShowSplash(false)} />;
-  }
-
-  if (isLoading) {
-    return <SplashScreen onFinish={() => {}} />;
   }
 
   return (
@@ -45,14 +30,18 @@ const AppNavigator = () => {
         screenOptions={{
           headerShown: false,
         }}
+        initialRouteName={!isAuthenticated ? 'Login' : 'MainApp'}
       >
-        {!isAuthenticated ? (
-          // Auth Stack
-          <Stack.Screen name="Login" component={LoginScreen} />
-        ) : (
-          // Main App Stack with Drawer Navigator
-          <Stack.Screen name="MainApp" component={DrawerNavigator} />
-        )}
+        {/* Auth Screens */}
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen
+          name="ForgetPassword"
+          component={ForgetPassword}
+          // options={{ headerShown: false }}
+        />
+
+        {/* Main App */}
+        <Stack.Screen name="MainApp" component={DrawerNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
   );
