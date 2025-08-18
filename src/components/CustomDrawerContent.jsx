@@ -69,7 +69,11 @@ const CustomDrawerContent = props => {
       {/* User Profile Section */}
       <View style={styles.profileSection}>
         <Image
-          source={require('../../assets/images/cusmc_logo.png')}
+          source={
+            user?.profileImage
+              ? { uri: user.profileImage }
+              : require('../../assets/images/cusmc_logo.png')
+          }
           style={styles.profileImage}
         />
         <Text style={styles.userName}>{user?.name || 'Welcome'}</Text>
