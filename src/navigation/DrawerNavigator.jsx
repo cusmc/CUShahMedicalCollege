@@ -14,7 +14,7 @@ import Settings from '../screens/Settings';
 import PaySlip from '../components/PaySlip';
 import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 import Attendance from '../screens/Attendance/Attendance';
-import About from '../screens/About-us/About';
+import Contact from '../screens/Contact-us/Contact';
 
 const Drawer = createDrawerNavigator();
 
@@ -116,13 +116,13 @@ const DrawerNavigator = () => {
           drawerLabel: '💸 Attendance',
         }}
       />
-      {/* <Drawer.Screen
-        name="About"
-        component={About}
+      <Drawer.Screen
+        name="Contact"
+        component={Contact}
         options={{
           drawerLabel: '💸 Attendance',
         }}
-      /> */}
+      />
     </Drawer.Navigator>
   );
 };

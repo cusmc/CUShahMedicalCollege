@@ -28,7 +28,12 @@ const CustomDrawerContent = props => {
   // Navigation Items (with optional submenus)
   const navigationItems = [
     { name: 'Home', label: '🏠 Home', screen: 'Home' },
-    { name: 'Public', label: '🌐 Public', screen: 'Public' },
+    {
+      name: 'Public',
+      label: '🌐 Public',
+      screen: 'Public',
+      submenu: [{ label: '🏥 About us', screen: 'About' }],
+    },
     {
       name: 'HR',
       label: '👥 HR',
@@ -56,7 +61,6 @@ const CustomDrawerContent = props => {
       name: 'Settings',
       label: '⚙️ Settings',
       screen: 'Settings',
-      // submenu: [{ label: '🏥 About us', screen: 'About' }],
     },
   ];
 
