@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
-import { Colors } from '../constants/Colors';
-import { Metrics } from '../constants/Metrics';
+import { Colors } from '../../constants/Colors';
+import { Metrics } from '../../constants/Metrics';
 
 export default StyleSheet.create({
   container: {

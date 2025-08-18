@@ -2,20 +2,30 @@ import { StyleSheet, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
+import { useAuth } from '../../context/AuthContext';
 
-const ForgetPassword = ({ navigation }) => {
+const Attendance = ({ navigation }) => {
+  const { user, password } = useAuth();
+
+  // Build Attendance URL with Empid and password
+  const attendanceUrl = `https://smc.cusmc.org/Attandance/Attandance?Empid=${user?.empId}&password=${password}`;
+
   return (
     <SafeAreaProvider>
       <Header
-        title="🔐 Forget Password"
+        title="📅  Attendance"
         showBackButton={true}
-        showList={true}
         onBackPress={() => navigation.goBack()}
       />
 
       <SafeAreaView style={styles.container}>
         <WebView
-          source={{ uri: 'https://smc.cusmc.org/Account/ForgotPasswordUser' }}
+          source={{
+            uri: attendanceUrl,
+          }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          startInLoadingState={true}
         />
       </SafeAreaView>
     </SafeAreaProvider>
@@ -28,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgetPassword;
+export default Attendance;

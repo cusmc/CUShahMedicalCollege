@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -13,10 +13,11 @@ import { Metrics } from '../constants/Metrics';
 
 const CustomDrawerContent = props => {
   const { user, logout } = useAuth();
+  const [expandedMenu, setExpandedMenu] = useState(null);
 
   const handleLogout = async () => {
     await logout();
-    props.navigation.LoginScreen();
+    props.navigation.navigate('LoginScreen');
   };
 
   const handleNavigation = screenName => {
@@ -24,11 +25,26 @@ const CustomDrawerContent = props => {
     props.navigation.closeDrawer();
   };
 
+  // Navigation Items (with optional submenus)
   const navigationItems = [
     { name: 'Home', label: '🏠 Home', screen: 'Home' },
     { name: 'Public', label: '🌐 Public', screen: 'Public' },
-    { name: 'HR', label: '👥 HR', screen: 'HR' },
-    { name: 'Academic', label: '📚 Academic', screen: 'Academic' },
+    {
+      name: 'HR',
+      label: '👥 HR',
+      submenu: [
+        { label: '💰 PaySlip', screen: 'PaySlip' },
+        { label: '📅 Attendance', screen: 'Attendance' },
+      ],
+    },
+    {
+      name: 'Academic',
+      label: '📚 Academic',
+      submenu: [
+        { label: '📝 Courses', screen: 'Courses' },
+        { label: '🎓 Students', screen: 'Students' },
+      ],
+    },
     { name: 'Library', label: '📖 Library', screen: 'Library' },
     { name: 'Hospital', label: '🏥 Hospital', screen: 'Hospital' },
     {
@@ -38,6 +54,10 @@ const CustomDrawerContent = props => {
     },
     { name: 'Settings', label: '⚙️ Settings', screen: 'Settings' },
   ];
+
+  const toggleMenu = menuName => {
+    setExpandedMenu(expandedMenu === menuName ? null : menuName);
+  };
 
   return (
     <View style={styles.container}>
@@ -54,13 +74,36 @@ const CustomDrawerContent = props => {
       {/* Navigation Items */}
       <ScrollView style={styles.navigationSection}>
         {navigationItems.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.navItem}
-            onPress={() => handleNavigation(item.screen)}
-          >
-            <Text style={styles.navLabel}>{item.label}</Text>
-          </TouchableOpacity>
+          <View key={index}>
+            <TouchableOpacity
+              style={styles.navItem}
+              onPress={() =>
+                item.submenu
+                  ? toggleMenu(item.name)
+                  : handleNavigation(item.screen)
+              }
+            >
+              <Text style={styles.navLabel}>
+                {item.label}{' '}
+                {item.submenu && (expandedMenu === item.name ? '▲' : '▼')}
+              </Text>
+            </TouchableOpacity>
+
+            {/* Submenu Items */}
+            {item.submenu && expandedMenu === item.name && (
+              <View style={styles.submenu}>
+                {item.submenu.map((sub, subIndex) => (
+                  <TouchableOpacity
+                    key={subIndex}
+                    style={styles.submenuItem}
+                    onPress={() => handleNavigation(sub.screen)}
+                  >
+                    <Text style={styles.submenuLabel}>{sub.label}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </View>
         ))}
       </ScrollView>
 
@@ -75,37 +118,32 @@ const CustomDrawerContent = props => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+  container: { flex: 1, backgroundColor: '#fff' },
   profileSection: {
     padding: Metrics.lg,
     borderBottomWidth: 1,
     borderBottomColor: Colors.border,
     alignItems: 'center',
+    backgroundColor: '#f5f5f5',
   },
   profileImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 100,
+    height: 100,
+    borderRadius: 180,
     marginBottom: Metrics.md,
   },
   userName: {
     fontSize: Metrics.fontSize.lg,
     fontWeight: 'bold',
     color: Colors.textPrimary,
-    marginBottom: Metrics.xs,
+    marginBottom: Metrics.sm,
   },
   userRole: {
     fontSize: Metrics.fontSize.sm,
     color: Colors.gray,
     textAlign: 'center',
   },
-  navigationSection: {
-    flex: 1,
-    paddingTop: Metrics.md,
-  },
+  navigationSection: { flex: 1, paddingTop: Metrics.lg },
   navItem: {
     paddingVertical: Metrics.md,
     paddingHorizontal: Metrics.lg,
@@ -116,6 +154,19 @@ const styles = StyleSheet.create({
     fontSize: Metrics.fontSize.md,
     color: Colors.textPrimary,
     fontWeight: '500',
+  },
+  submenu: {
+    paddingLeft: 30,
+    backgroundColor: '#f9f9f9',
+  },
+  submenuItem: {
+    paddingVertical: Metrics.sm,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.border,
+  },
+  submenuLabel: {
+    fontSize: Metrics.fontSize.sm,
+    color: Colors.textSecondary,
   },
   logoutSection: {
     padding: Metrics.lg,

@@ -1,7 +1,6 @@
-// src/screens/HomeScreen.js
 import React from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
-import Header from '../components/Header'; // Adjust if in different path
+import Header from '../../components/Header'; // Adjust if in different path
 import styles from './HomeStyles';
 
 const Home = ({ navigation }) => {
@@ -46,7 +45,7 @@ const Home = ({ navigation }) => {
           <Text style={styles.subtitle}>Founder & Visionary {'\n'}</Text>
 
           <Image
-            source={require('../../assets/images/cushah_saheb.jpg')}
+            source={require('../../../assets/images/cushah_saheb.jpg')}
             style={styles.profileImage}
             resizeMode="cover"
           />

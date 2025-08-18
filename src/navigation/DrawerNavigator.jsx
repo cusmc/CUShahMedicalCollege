@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 
 // Import screens
-import Home from '../screens/Home';
+import Home from '../screens/Home/Home';
 import Public from '../screens/Public';
 import HR from '../screens/HR';
 import Academic from '../screens/Academic';
@@ -13,6 +13,7 @@ import ImportantInfo from '../screens/ImportantInfo';
 import Settings from '../screens/Settings';
 import PaySlip from '../components/PaySlip';
 import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
+import Attendance from '../screens/Attendance/Attendance';
 
 const Drawer = createDrawerNavigator();
 
@@ -105,6 +106,13 @@ const DrawerNavigator = () => {
         component={ForgetPassword}
         options={{
           drawerLabel: '💸 ForgetPassword',
+        }}
+      />
+      <Drawer.Screen
+        name="Attendance"
+        component={Attendance}
+        options={{
+          drawerLabel: '💸 Attendance',
         }}
       />
     </Drawer.Navigator>
