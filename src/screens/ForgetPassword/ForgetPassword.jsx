@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -9,7 +10,6 @@ const ForgetPassword = ({ navigation }) => {
       <Header
         title="🔐 Forget Password"
         showBackButton={true}
-        showList={true}
         onBackPress={() => navigation.goBack()}
       />
 

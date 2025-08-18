@@ -52,7 +52,12 @@ const CustomDrawerContent = props => {
       label: 'ℹ️ Important Info',
       screen: 'ImportantInfo',
     },
-    { name: 'Settings', label: '⚙️ Settings', screen: 'Settings' },
+    {
+      name: 'Settings',
+      label: '⚙️ Settings',
+      screen: 'Settings',
+      // submenu: [{ label: '🏥 About us', screen: 'About' }],
+    },
   ];
 
   const toggleMenu = menuName => {
