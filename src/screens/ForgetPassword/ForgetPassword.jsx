@@ -10,6 +10,7 @@ const ForgetPassword = ({ navigation }) => {
       <Header
         title="🔐 Forget Password"
         showBackButton={true}
+        showList={true}
         onBackPress={() => navigation.goBack()}
       />
 

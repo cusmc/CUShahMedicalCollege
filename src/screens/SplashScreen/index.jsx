@@ -1,11 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  Animated,
-  Dimensions,
-  Image,
-} from 'react-native';
+import { View, Text, Animated, Dimensions, Image } from 'react-native';
 import { Colors } from '../../constants/Colors';
 import { Metrics } from '../../constants/Metrics';
 import { Strings } from '../../constants/Strings';
@@ -53,7 +47,7 @@ const SplashScreen = ({ onFinish }) => {
       <Animated.View
         style={{
           opacity: fadeAnim,
-          transform: [{ scale: scaleAnim }],
+          transform: [{ scale: scaleAnim, scale: logoAnim }],
           alignItems: 'center',
         }}
       >

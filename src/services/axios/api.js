@@ -1,9 +1,11 @@
+import { ToastAndroid } from 'react-native';
 import Api from './api'; // adjust path if needed
 
 const handleLogin = async () => {
   try {
     const result = await Api.createToken(username, password);
     console.log('Logged in successfully:', result);
+    ToastAndroid.show("Logged in successfullt:", LONG)
 
     // Save token or navigate
     // await AsyncStorage.setItem('token', result.access_token);

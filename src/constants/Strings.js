@@ -1,61 +1,61 @@
 export const Strings = {
   // App
-  appName: 'C.U.Shah Medical College',
-  appTagline: 'Excellence in C U Shah Medical College & Hospital',
-  
+  appName: 'C.U. Shah Medical College',
+  appTagline: 'Excellence in Education, Research & Healthcare',
+
   // Splash Screen
-  splashLoading: 'Loading...',
-  
+  splashLoading: 'Please wait... Preparing your experience',
+
   // Login Screen
   loginWelcome: 'Welcome',
-  loginSubtitle: 'Your C U Shah Family Account awaits  Sign in to continue.',
+  loginSubtitle: 'Sign in to continue with your C.U. Shah Family Account.',
   loginTitle: 'Login',
-  usernameLabel: 'Username',
+  usernameLabel: 'User ID',
   usernamePlaceholder: 'Enter your User ID',
   passwordLabel: 'Password',
-  passwordPlaceholder: 'Enter your password',
+  passwordPlaceholder: 'Enter your Password',
   forgotPassword: 'Forgot Password?',
   loginButton: 'Sign In',
-  loginError: 'Login Error',
-  loginErrorMessage: 'An error occurred during login. Please try again.',
-  fillAllFields: 'Please fill in all fields',
-  forgotPasswordMessage: 'Password reset functionality will be implemented here',
-  
+  loginError: 'Login Failed',
+  loginErrorMessage: 'Unable to sign in. Please check your details and try again.',
+  fillAllFields: 'All fields are required',
+  forgotPasswordMessage: 'Password recovery feature coming soon.',
+
   // Dashboard
   dashboardWelcome: 'Welcome',
-  dashboardSubtitle: 'Student',
-  dashboardCollegeName: 'CUShah Medical College',
-  logoutButton: 'Logout',
-  
+  dashboardSubtitle: 'Student Dashboard',
+  dashboardCollegeName: 'C.U. Shah Medical College',
+  logoutButton: 'Sign Out',
+
   // Quick Actions
-  quickActions: 'Quick Actions',
+  quickActions: 'Quick Access',
   courses: 'Courses',
   schedule: 'Schedule',
   grades: 'Grades',
   library: 'Library',
-  
+
   // Recent Activities
   recentActivities: 'Recent Activities',
-  anatomyLab: 'Anatomy Lab - Session completed',
-  biochemistryQuiz: 'Biochemistry Quiz - Score: 85%',
-  clinicalRotation: 'Clinical Rotation - Pediatrics',
-  researchPaper: 'Research Paper - Submitted',
-  
+  anatomyLab: 'Anatomy Lab – Session Completed',
+  biochemistryQuiz: 'Biochemistry Quiz – Scored 85%',
+  clinicalRotation: 'Clinical Rotation – Pediatrics',
+  researchPaper: 'Research Paper – Submitted',
+
   // Upcoming Events
   upcomingEvents: 'Upcoming Events',
-  medicalConference: 'Medical Conference',
-  finalExams: 'Final Exams',
+  medicalConference: 'Annual Medical Conference',
+  finalExams: 'Final Examinations',
   graduationCeremony: 'Graduation Ceremony',
   tomorrow: 'Tomorrow, 9:00 AM',
   nextWeek: 'Next Week',
   graduationDate: 'June 15, 2024',
-  
+
   // Alerts
   error: 'Error',
   success: 'Success',
   warning: 'Warning',
   info: 'Information',
-  
+
   // Common
   loading: 'Loading...',
   retry: 'Retry',
@@ -80,4 +80,4 @@ export const Strings = {
   ok: 'OK',
 };
 
-export default Strings; 
+export default Strings;

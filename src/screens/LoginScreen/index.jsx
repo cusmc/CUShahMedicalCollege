@@ -23,8 +23,12 @@ const LoginScreen = ({ navigation }) => {
 
   const handleLogin = async () => {
     if (!username || !password) {
-      Alert.alert(Strings.error, Strings.fillAllFields);
-      ToastAndroid.show('You Logout from Your account', ToastAndroid.LONG);
+      ToastAndroid.showWithGravity(
+        `${Strings.error}: ${Strings.fillAllFields}`,
+        ToastAndroid.LONG,
+        ToastAndroid.CENTER,
+      );
+      // ToastAndroid.show('You Logout from Your account', ToastAndroid.LONG);
       return;
     }
 
@@ -35,8 +39,8 @@ const LoginScreen = ({ navigation }) => {
       const result = await login({ username, password });
 
       if (result.success) {
+        ToastAndroid.show('You Login from Your account', ToastAndroid.SHORT);
         console.log('✅ Login successful, navigating to Home...');
-        ToastAndroid.show('You Login from Your account', ToastAndroid.LONG);
         // Navigation handled by isAuthenticated change
       } else {
         console.log('❌ Login failed:', result.error);

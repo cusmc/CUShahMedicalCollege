@@ -45,16 +45,16 @@ const PaySlip = ({ navigation }) => {
 
     // Check if user is authenticated, if not redirect to login
     if (!isAuthenticated) {
-      Alert.alert(
-        'Authentication Required',
-        'Please login to access payslips.',
-        [
-          {
-            text: 'OK',
-            onPress: () => navigation.navigate('Login'),
-          },
-        ],
-      );
+      // Alert.alert(
+      //   'Authentication Required',
+      //   'Please login to access payslips.',
+      //   [
+      //     {
+      //       text: 'OK',
+      //       onPress: () => navigation.navigate('Login'),
+      //     },
+      //   ],
+      // );
     }
   }, [isAuthenticated]);
 
@@ -87,7 +87,7 @@ const PaySlip = ({ navigation }) => {
 
     const monthIndex = months.indexOf(selectedMonth);
     if (monthIndex === -1) {
-      // Alert.alert('Invalid Month', 'The selected month is not valid.');
+      Alert.alert('Invalid Month', 'The selected month is not valid.');
       return;
     }
 
@@ -148,7 +148,6 @@ const PaySlip = ({ navigation }) => {
       />
       <View style={styles.mainContent}>
         <Text style={styles.heading}>Select Month</Text>
-
         <View style={styles.pickerWrapper}>
           <Picker
             selectedValue={selectedMonth}
@@ -160,20 +159,12 @@ const PaySlip = ({ navigation }) => {
             }}
             mode="dropdown" // Explicitly set mode to dropdown
           >
-            <Picker.Item
-              label="-- Select Month --"
-              value=""
-            />
+            <Picker.Item label="-- Select Month --" value="" />
             {months.map((month, index) => (
-              <Picker.Item
-                key={index}
-                label={month}
-                value={month}
-              />
+              <Picker.Item key={index} label={month} value={month} />
             ))}
           </Picker>
         </View>
-
         {selectedMonth && selectedMonth !== '' && (
           <View style={styles.selectedMonthContainer}>
             <Text style={styles.selectedMonthText}>
@@ -181,11 +172,9 @@ const PaySlip = ({ navigation }) => {
             </Text>
           </View>
         )}
-
         <TouchableOpacity onPress={handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>View Payslip</Text>
         </TouchableOpacity>
-
         {loading && (
           <ActivityIndicator
             size="large"
@@ -193,11 +182,9 @@ const PaySlip = ({ navigation }) => {
             style={{ marginTop: 20 }}
           />
         )}
-
         {visible && pdfData && (
           <PDFViewer base64Data={pdfData} onClose={() => setVisible(false)} />
         )}
-        ToastAndroid.show('Error: MEET ', ToastAndroid.SHORT);
       </View>
     </ScrollView>
   );
@@ -239,6 +226,7 @@ const styles = StyleSheet.create({
   picker: {
     // Removed color and backgroundColor to allow native styling
     height: 50,
+    color: '#fff',
   },
   pickerItem: {
     // Removed color and backgroundColor to allow native styling
@@ -247,6 +235,7 @@ const styles = StyleSheet.create({
   selectedMonthContainer: {
     backgroundColor: '#e8f4fd',
     padding: 12,
+    color: '#2e86de',
     borderRadius: 8,
     marginBottom: 20,
     borderLeftWidth: 4,
