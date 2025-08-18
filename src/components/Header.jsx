@@ -9,6 +9,10 @@ import {
 } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Menu from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const Header = ({
   title,
@@ -34,13 +38,16 @@ const Header = ({
       />
       <View style={styles.leftContainer}>
         {showBackButton && (
-          <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-            <Text style={[styles.backButtonText, { color: textColor }]}>←</Text>
+          <TouchableOpacity onPress={onBackPress}>
+            <Text style={[styles.backButtonText, { color: textColor }]}>
+              <Icon name="arrow-back-outline" size={28} color="#fff" />
+            </Text>
           </TouchableOpacity>
         )}
         {showMenu && (
-          <TouchableOpacity onPress={onMenuPress} style={styles.iconButton}>
-            <Text style={[styles.iconText, { color: textColor }]}>☰</Text>
+          <TouchableOpacity onPress={onMenuPress}>
+            {/* <Text style={[styles.iconText, { color: textColor }]}>☰</Text> */}
+            <Menu name="menu" size={28} color="#fff" />
           </TouchableOpacity>
         )}
         {leftIcon && (
@@ -51,19 +58,24 @@ const Header = ({
       </View>
 
       <View style={styles.titleContainer}>
-        <Text style={[styles.title, { color: textColor }]} numberOfLines={1}>
+        <Text style={[styles.title, { color: textColor }]} numberOfLines={2}>
           {title}
         </Text>
       </View>
 
       <View style={styles.rightContainer}>
         {showList && (
-          <TouchableOpacity onPress={onListPress} style={styles.iconButton}>
-            <Text style={[styles.iconText, { color: textColor }]}>☐</Text>
+          <TouchableOpacity onPress={onListPress}>
+            {/* <Text style={[styles.iconText, { color: textColor }]}>☐</Text> */}
+            <MaterialCommunityIcons
+              name="postage-stamp"
+              size={28}
+              color={textColor}
+            />
           </TouchableOpacity>
         )}
         {rightIcon && (
-          <TouchableOpacity onPress={onRightPress} style={styles.iconButton}>
+          <TouchableOpacity onPress={onRightPress}>
             {rightIcon}
           </TouchableOpacity>
         )}
@@ -108,22 +120,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   backButton: {
-    padding: Metrics.sm,
+    padding: Metrics.md,
   },
   backButtonText: {
-    fontSize: Metrics.fontSize.xl,
-    fontWeight: 'bold',
-  },
-  iconButton: {
-    padding: Metrics.md,
-    minWidth: 44,
-    minHeight: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  iconText: {
-    fontSize: Metrics.fontSize.xl,
-    fontWeight: 'bold',
+    fontSize: Metrics.fontSize.largeTitle,
+    // fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

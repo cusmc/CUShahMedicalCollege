@@ -16,7 +16,7 @@ const CustomDrawerContent = props => {
 
   const handleLogout = async () => {
     await logout();
-    props.navigation.closeDrawer();
+    props.navigation.LoginScreen();
   };
 
   const handleNavigation = screenName => {

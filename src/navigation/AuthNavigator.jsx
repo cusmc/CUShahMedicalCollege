@@ -18,9 +18,6 @@ const AuthTabs = () => {
         headerShown: false,
       }}
     >
-      {/* <Tab.Screen name="LoginTab" component={LoginScreen} options={{ title: 'Login' }} /> */}
-      {/* <Tab.Screen name="ForgetPasswordTab" component={ForgetPassword} options={{ title: 'Forgot Password' }} /> */}
-      {/* Add more auth tabs here if needed, e.g., Register */}
     </Tab.Navigator>
   );
 };
@@ -33,7 +30,6 @@ const AuthNavigator = () => {
       }}
     >
       <Stack.Screen name="Splash" component={SplashScreen} />
-      <Stack.Screen name="AuthTabs" component={AuthTabs} /> {/* Use AuthTabs as a Stack Screen */}
     </Stack.Navigator>
   );
 };

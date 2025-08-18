@@ -7,7 +7,6 @@ import {
   ScrollView,
   Alert,
   Image,
-  TouchableOpacity,
   ToastAndroid,
 } from 'react-native';
 import { useAuth } from '../../context/AuthContext';
@@ -15,7 +14,6 @@ import { Strings } from '../../constants/Strings';
 import CustomInput from '../../components/CustomInput';
 import Button from '../../components/Button';
 import styles from './styles';
-import ForgetPassword from '../ForgetPassword/ForgetPassword';
 
 const LoginScreen = ({ navigation }) => {
   const { login } = useAuth();
@@ -26,6 +24,7 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     if (!username || !password) {
       Alert.alert(Strings.error, Strings.fillAllFields);
+      ToastAndroid.show('You Logout from Your account', ToastAndroid.LONG);
       return;
     }
 
@@ -37,6 +36,7 @@ const LoginScreen = ({ navigation }) => {
 
       if (result.success) {
         console.log('✅ Login successful, navigating to Home...');
+        ToastAndroid.show('You Login from Your account', ToastAndroid.LONG);
         // Navigation handled by isAuthenticated change
       } else {
         console.log('❌ Login failed:', result.error);
@@ -48,7 +48,6 @@ const LoginScreen = ({ navigation }) => {
     } catch (error) {
       console.error('Login error:', error);
       Alert.alert(Strings.loginError, Strings.loginErrorMessage);
-      ToastAndroid("Hi I'm HItarth");
     } finally {
       setIsLoading(false);
     }

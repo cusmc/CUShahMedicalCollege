@@ -7,7 +7,6 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
-  FlatList,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import PDFViewer from './PDFViewer';

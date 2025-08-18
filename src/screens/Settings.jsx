@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Switch,
-  Alert,
+  ToastAndroid,
 } from 'react-native';
 import Header from '../components/Header';
 import Button from '../components/Button';
@@ -21,7 +21,7 @@ const Settings = ({ navigation }) => {
 
   const handleLogout = async () => {
     // Directly log out and navigate without an alert to avoid Activity lifecycle issues
-    ToastAndroid.show('Hi Hitarth Shah', ToastAndroid.LONG);
+    ToastAndroid.show('You Logout from Your account', ToastAndroid.LONG);
     await logout();
     navigation.replace('Login'); // Navigate to Login screen after logout
   };
