@@ -16,6 +16,9 @@ const ForgetPassword = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <WebView
           source={{ uri: 'https://smc.cusmc.org/Account/ForgotPasswordUser' }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          startInLoadingState={true}
         />
       </SafeAreaView>
     </SafeAreaProvider>

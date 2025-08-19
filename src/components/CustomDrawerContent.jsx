@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -6,71 +6,49 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import { Colors } from '../constants/Colors';
-import { Metrics } from '../constants/Metrics';
+import Api from '../services/api';
 
 const CustomDrawerContent = props => {
   const { user, logout } = useAuth();
-  const [expandedMenu, setExpandedMenu] = useState(null);
+  const [menuData, setMenuData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchMenu = async () => {
+    try {
+      const data = await Api.getMenuData();
+      // console.log('RAW API DATA ===>', JSON.stringify(data, null, 2));
+      setMenuData(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Error fetching menu data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenu();
+  }, []);
 
   const handleLogout = async () => {
     await logout();
     props.navigation.navigate('LoginScreen');
   };
 
-  const handleNavigation = screenName => {
-    props.navigation.navigate(screenName);
-    props.navigation.closeDrawer();
-  };
-
-  // Navigation Items (with optional submenus)
-  const navigationItems = [
-    { name: 'Home', label: '🏠 Home', screen: 'Home' },
-    {
-      name: 'Public',
-      label: '🌐 Public',
-      screen: 'Public',
-      submenu: [{ label: '🏥 About us', screen: 'About' }],
-    },
-    {
-      name: 'HR',
-      label: '👥 HR',
-      submenu: [
-        { label: '💰 PaySlip', screen: 'PaySlip' },
-        { label: '📅 Attendance', screen: 'Attendance' },
-      ],
-    },
-    {
-      name: 'Academic',
-      label: '📚 Academic',
-      submenu: [
-        { label: '📝 Courses', screen: 'Courses' },
-        { label: '🎓 Students', screen: 'Students' },
-      ],
-    },
-    { name: 'Library', label: '📖 Library', screen: 'Library' },
-    { name: 'Hospital', label: '🏥 Hospital', screen: 'Hospital' },
-    {
-      name: 'ImportantInfo',
-      label: 'ℹ️ Important Info',
-      screen: 'ImportantInfo',
-    },
-    {
-      name: 'Settings',
-      label: '⚙️ Settings',
-      screen: 'Settings',
-    },
-  ];
-
-  const toggleMenu = menuName => {
-    setExpandedMenu(expandedMenu === menuName ? null : menuName);
-  };
+  if (loading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="blue" />
+        <Text>Loading menu...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      {/* User Profile Section */}
+      {/* Profile */}
       <View style={styles.profileSection}>
         <Image
           source={
@@ -84,43 +62,19 @@ const CustomDrawerContent = props => {
         <Text style={styles.userRole}>C.U. Shah Medical College</Text>
       </View>
 
-      {/* Navigation Items */}
-      <ScrollView style={styles.navigationSection}>
-        {navigationItems.map((item, index) => (
-          <View key={index}>
-            <TouchableOpacity
-              style={styles.navItem}
-              onPress={() =>
-                item.submenu
-                  ? toggleMenu(item.name)
-                  : handleNavigation(item.screen)
-              }
-            >
-              <Text style={styles.navLabel}>
-                {item.label}{' '}
-                {item.submenu && (expandedMenu === item.name ? '▲' : '▼')}
-              </Text>
-            </TouchableOpacity>
-
-            {/* Submenu Items */}
-            {item.submenu && expandedMenu === item.name && (
-              <View style={styles.submenu}>
-                {item.submenu.map((sub, subIndex) => (
-                  <TouchableOpacity
-                    key={subIndex}
-                    style={styles.submenuItem}
-                    onPress={() => handleNavigation(sub.screen)}
-                  >
-                    <Text style={styles.submenuLabel}>{sub.label}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
+      {/* Debug Menu */}
+      <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
+        {menuData.map((item, index) => (
+          <View key={index} style={styles.debugBox}>
+            <Text style={styles.title}>
+              {item.Module_id || `Item ${index + 1}`}
+              {''} {item.Module_nm || `Item ${index - 1}`}
+            </Text>
           </View>
         ))}
       </ScrollView>
 
-      {/* Logout Section */}
+      {/* Logout */}
       <View style={styles.logoutSection}>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.logoutText}>🚪 Logout</Text>
@@ -131,72 +85,33 @@ const CustomDrawerContent = props => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: 'white' },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   profileSection: {
-    padding: Metrics.lg,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    padding: 20,
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 180,
-    marginBottom: Metrics.md,
-  },
-  userName: {
-    fontSize: Metrics.fontSize.lg,
-    fontWeight: 'bold',
-    color: Colors.textPrimary,
-    marginBottom: Metrics.sm,
-  },
-  userRole: {
-    fontSize: Metrics.fontSize.sm,
-    color: Colors.gray,
-    textAlign: 'center',
-  },
-  navigationSection: { flex: 1, paddingTop: Metrics.lg },
-  navItem: {
-    paddingVertical: Metrics.md,
-    paddingHorizontal: Metrics.lg,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: 'blue',
   },
-  navLabel: {
-    fontSize: Metrics.fontSize.md,
-    color: Colors.textPrimary,
-    fontWeight: '500',
+  profileImage: { width: 80, height: 80, borderRadius: 40, marginBottom: 10 },
+  userName: { fontSize: 18, fontWeight: 'bold' },
+  userRole: { fontSize: 14, color: 'gray' },
+  debugBox: {
+    borderBottomWidth: 1,
+    borderBottomColor: 'blue',
+    padding: 10,
+    alignItems: 'start',
   },
-  submenu: {
-    paddingLeft: 30,
-    backgroundColor: '#f9f9f9',
-  },
-  submenuItem: {
-    paddingVertical: Metrics.sm,
-    borderBottomWidth: 0.5,
-    borderBottomColor: Colors.border,
-  },
-  submenuLabel: {
-    fontSize: Metrics.fontSize.sm,
-    color: Colors.textSecondary,
-  },
-  logoutSection: {
-    padding: Metrics.lg,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-  },
+  title: { fontSize: 16, fontWeight: 'bold', marginBottom: 5, color: 'blue' },
+  debugText: { fontSize: 14, color: 'red' },
+  logoutSection: { padding: 20, borderTopWidth: 1, borderTopColor: '#ddd' },
   logoutButton: {
-    backgroundColor: Colors.error,
-    padding: Metrics.md,
-    borderRadius: Metrics.borderRadius.md,
+    backgroundColor: 'red',
+    padding: 10,
+    borderRadius: 8,
     alignItems: 'center',
   },
-  logoutText: {
-    color: Colors.white,
-    fontSize: Metrics.fontSize.md,
-    fontWeight: '600',
-  },
+  logoutText: { color: 'white', fontSize: 16, fontWeight: 'bold' },
 });
 
 export default CustomDrawerContent;

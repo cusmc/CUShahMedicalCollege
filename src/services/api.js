@@ -11,8 +11,21 @@ export const STORAGE_KEYS = {
 
 const BASE_URL = 'https://smc.cusmc.org';
 const TOKEN_URL = `${BASE_URL}/token`;
+export const GET_MENU_DATA = `${BASE_URL}/api/ModuDatasApi`;
 
 class Api {
+  static async getMenuData() {
+    try {
+      const instance = await this.createAuthenticatedInstance();
+      const response = await instance.get(GET_MENU_DATA);
+      console.log('Menu data fetched successfully:', response.data); // Add this line
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching menu data:', error.response?.data || error.message); // Enhance error logging
+      throw error;
+    }
+  }
+
   static async createToken(username, password) {
     try {
       const formBody = new URLSearchParams();
