@@ -73,6 +73,8 @@ const CustomDrawerContent = ({ navigation }) => {
               // Navigate to screen if screenName exists
               if (item.screenName) {
                 navigation.navigate(item.screenName);
+              } else if (item.Module_nm) {
+                navigation.navigate(item.Module_nm);
               } else {
                 console.log('No screen mapped for this item:', item.Module_nm);
               }
