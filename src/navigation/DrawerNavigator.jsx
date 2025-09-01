@@ -11,7 +11,7 @@ import Library from '../screens/Library';
 import Hospital from '../screens/Hospital';
 import ImportantInfo from '../screens/ImportantInfo';
 import Settings from '../screens/Settings';
-import PaySlip from '../components/PaySlip';
+import PaySlip from '../components/Pay slip';
 import ForgetPassword from '../screens/ForgetPassword/ForgetPassword';
 import Attendance from '../screens/Attendance/Attendance';
 import Contact from '../screens/Contact-us/Contact';
@@ -96,7 +96,7 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen
-        name="PaySlip"
+        name="Pay Slip"
         component={PaySlip}
         options={{
           drawerLabel: '💸 Pay Slip',

@@ -11,15 +11,15 @@ import {
 import { useAuth } from '../context/AuthContext';
 import Api from '../services/api';
 
-const CustomDrawerContent = props => {
+const CustomDrawerContent = ({ navigation }) => {
   const { user, logout } = useAuth();
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch menu data from API
   const fetchMenu = async () => {
     try {
       const data = await Api.getMenuData();
-      // console.log('RAW API DATA ===>', JSON.stringify(data, null, 2));
       setMenuData(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error('Error fetching menu data:', err);
@@ -32,9 +32,10 @@ const CustomDrawerContent = props => {
     fetchMenu();
   }, []);
 
+  // Logout handler
   const handleLogout = async () => {
     await logout();
-    props.navigation.navigate('LoginScreen');
+    navigation.navigate('LoginScreen');
   };
 
   if (loading) {
@@ -48,7 +49,7 @@ const CustomDrawerContent = props => {
 
   return (
     <View style={styles.container}>
-      {/* Profile */}
+      {/* Profile Section */}
       <View style={styles.profileSection}>
         <Image
           source={
@@ -62,15 +63,25 @@ const CustomDrawerContent = props => {
         <Text style={styles.userRole}>C.U. Shah Medical College</Text>
       </View>
 
-      {/* Debug Menu */}
+      {/* Menu Items */}
       <ScrollView style={{ flex: 1, backgroundColor: '#fff' }}>
         {menuData.map((item, index) => (
-          <View key={index} style={styles.debugBox}>
+          <TouchableOpacity
+            key={index}
+            style={styles.debugBox}
+            onPress={() => {
+              // Navigate to screen if screenName exists
+              if (item.screenName) {
+                navigation.navigate(item.screenName);
+              } else {
+                console.log('No screen mapped for this item:', item.Module_nm);
+              }
+            }}
+          >
             <Text style={styles.title}>
-              {item.Module_id || `Item ${index + 1}`}
-              {''} {item.Module_nm || `Item ${index - 1}`}
+              {item.Module_nm || `Item ${index + 1}`}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
 
@@ -100,10 +111,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'blue',
     padding: 10,
-    alignItems: 'start',
+    alignItems: 'flex-start',
   },
-  title: { fontSize: 16, fontWeight: 'bold', marginBottom: 5, color: 'blue' },
-  debugText: { fontSize: 14, color: 'red' },
+  title: { fontSize: 16, fontWeight: 'bold', color: 'blue' },
   logoutSection: { padding: 20, borderTopWidth: 1, borderTopColor: '#ddd' },
   logoutButton: {
     backgroundColor: 'red',

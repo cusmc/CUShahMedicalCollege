@@ -11,7 +11,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import PDFViewer from './PDFViewer';
 import { useSalarySlip } from '../hooks/useSalarySlip';
-import Header from '../components/Header';
+import Header from './Header';
 import { Colors } from '../constants/Colors';
 import { Metrics } from '../constants/Metrics';
 import { useAuth } from '../context/AuthContext';
